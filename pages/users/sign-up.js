@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { auth } from "../../utils/firebase.config";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,7 +9,6 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { createUserDocumentFromAuth } from "../../utils/firebase.config";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
@@ -20,6 +20,8 @@ const SignUp = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -48,15 +50,11 @@ const SignUp = () => {
         );
         await sendEmailVerification(auth.currentUser).then(async () => {
           setLoading(false);
-          setSuccess(
-            "An email verification link has been sent to you. Sometimes, the email might land in your spam folder."
-          );
-          resetForm();
+          router.push("/users/verify-email")
           await updateProfile(auth.currentUser, {
             displayName: username,
           });
         });
-        createUserDocumentFromAuth(user, { displayName: username });
       } catch (error) {
         setLoading(false);
         if (error.code === "auth/email-already-in-use") {
@@ -67,6 +65,7 @@ const SignUp = () => {
   });
   return (
     <>
+      <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
         className="shadow-md border rounded-xl w-11/12 md:w-3/5 xl:w-2/5 flex flex-col mt-24 m-auto"
