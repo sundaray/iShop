@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +14,8 @@ import Spinner from "../../components/shared/Spinner";
 const SignIn = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -39,17 +42,17 @@ const SignIn = () => {
           setError(null);
           setLoading(false);
           localStorage.setItem("displayName", user.displayName);
-          localStorage.setItem("emailVerified", true);
-          navigate(location.state ? location.state.from.pathname : "/");
+          router.replace(
+            router.query.from ? decodeURIComponent(router.query.from) : "/"
+          );
         } else {
-          setError("Please verify your email.");
           setLoading(false);
         }
       } catch (error) {
         setLoading(false);
         setError(error.message);
         if (error.code === "auth/user-not-found") {
-          setError("Email not found");
+          setError("User not found");
         } else if (error.code === "auth/wrong-password") {
           setError("Invalid password");
         } else if (error.code === "auth/network-request-failed") {
