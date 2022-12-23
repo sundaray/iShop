@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../../firebase.config";
-import ErrorFormSubmission from "../commonUi/ErrorFormSubmission";
-import SuccessFormSubmission from "../commonUi/SuccessFormSubmission";
-import Spinner from "../commonUi/Spinner";
-import HomeButton from "../commonUi/HomeButton";
-import InputEmail from "../commonUi/InputEmail";
+import { auth } from "../../utils/firebase.config";
+import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
+import InputEmail from "../../components/shared/InputEmail";
+import Spinner from "../../components/shared/Spinner";
 
 const ForgotPassword = () => {
   const [success, setSuccess] = useState(null);
@@ -41,11 +40,10 @@ const ForgotPassword = () => {
   });
   return (
     <>
-      <HomeButton />
       <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
-        className="shadow w-11/12 md:w-3/5 xl:w-2/5 flex flex-col rounded mt-20 m-auto"
+        className="shadow-md w-11/12 md:w-3/5 xl:w-2/5 flex flex-col rounded-xl mt-20 m-auto"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
@@ -55,12 +53,12 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="sign-up w-60 bg-blue-500 text-white px-2 py-1 hover:bg-blue-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded sign-up w-50 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {loading ? (
-                  <Spinner type="Sending... email" />
+                  <Spinner type="Resetting... password" />
                 ) : (
-                  "Send password reset email"
+                  "Reset password"
                 )}
               </button>
             </div>

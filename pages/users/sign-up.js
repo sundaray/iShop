@@ -9,9 +9,10 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { createUserDocumentFromAuth } from "../../utils/firebase.config";
-import SuccessFormSubmission from "./../commonUi/SuccessFormSubmission";
-import ErrorFormSubmission from "../commonUi/ErrorFormSubmission";
-import Spinner from "../commonUi/Spinner";
+import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
+import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import Spinner from "../../components/shared/Spinner";
+import InputUsername from "../../components/shared/InputUsername";
 import InputEmail from "../../components/shared/InputEmail";
 import InputPassword from "../../components/shared/InputPassword";
 
@@ -66,11 +67,9 @@ const SignUp = () => {
   });
   return (
     <>
-      <HomeButton />
-      <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
-        className="shadow border rounded-xl w-11/12 md:w-3/5 xl:w-2/5 flex flex-col mt-24 m-auto"
+        className="shadow-md border rounded-xl w-11/12 md:w-3/5 xl:w-2/5 flex flex-col mt-24 m-auto"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
@@ -82,14 +81,14 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className=" w-40 bg-blue-500 text-white px-2 py-1 hover:bg-blue-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className=" rounded w-40 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Spinner type="Signing... up" /> : "Sign Up"}
               </button>
             </div>
           </div>
           <div className="bg-gray-100 rounded-b-xl w-full h-20 px-8 flex justify-center items-center">
-            <Link href="/sign_in">
+            <Link href="/users/sign-in">
               <p className="text-sm text-gray-700 font-medium ">
                 Already a user?{" "}
                 <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
