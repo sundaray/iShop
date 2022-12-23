@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import googleLogo from "../../public/googleLogo.svg";
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
@@ -15,11 +17,11 @@ const SignInWithGoogle = () => {
 
   return (
     <div
-      className="w-fit bg-blue-500 hover:bg-blue-600 hover:shadow-md m-auto flex items-center justify-between cursor-pointer"
+      className="w-fit rounded bg-white hover:shadow-md m-auto flex items-center justify-between cursor-pointer"
       onClick={logGoogleUser}
     >
-      <img src="login.svg" alt="Google Sign In" className="w-10 h-10" />
-      <div className="mr-1 text-white font-normal">Sign in with Google</div>
+      <Image src={googleLogo} alt="Google logo" className="w-10 h-10" />
+      <div className="mr-3 text-gray-400  font-medium">Sign in with Google</div>
     </div>
   );
 };

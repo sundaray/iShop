@@ -20,7 +20,7 @@ const InputEmail = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <input
-        className="peer appearance-none bg-white border-2 border-gray-300 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 placeholder-transparent"
+        className="rounded peer appearance-none bg-white border-2 border-gray-300 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 placeholder-transparent"
         placeholder="Email"
         id="email"
         name="email"

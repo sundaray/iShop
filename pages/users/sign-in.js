@@ -40,18 +40,17 @@ const SignIn = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-36 bg-blue-500 text-white px-2 py-1 hover:bg-blue-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-36 rounded bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Spinner type="Signing... in" /> : "Sign in"}
               </button>
               <Link href="/forgot_password">
-                <p className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline">
+                <p className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline transition-all">
                   Forgot password
                 </p>
               </Link>
             </div>
           </div>
-          <p className=" text-gray-400 text-center font-medium">or</p>
           <div className="bg-gray-100 w-full h-24 px-8 flex flex-col md:flex-row justify-evenly md:justify-center items-center">
             <SignInWithGoogle />
           </div>
