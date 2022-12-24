@@ -1,18 +1,18 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import googleLogo from "../../public/googleLogo.svg";
-import {
-  signInWithGooglePopup,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase.config";
+import { signInWithGooglePopup } from "../../utils/firebase.config";
 
 const SignInWithGoogle = () => {
+  const router = useRouter();
+
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     localStorage.setItem("displayName", user.displayName);
-    localStorage.setItem("emailVerified", true);
-    await createUserDocumentFromAuth(user);
-    navigate(location.state ? location.state.from.pathname : "/");
+    router.replace(
+      router.query.from ? decodeURIComponent(router.query.from) : "/"
+    );
   };
 
   return (
