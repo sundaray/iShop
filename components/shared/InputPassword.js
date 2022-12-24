@@ -60,7 +60,11 @@ const InputPassword = ({ formik }) => {
         </svg>
       )}
       <input
-        className="rounded peer appearance-none bg-white border border-gray-300 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-700 placeholder-transparent"
+        className={`rounded peer appearance-none bg-white border ${
+          formik.touched.password && formik.errors.password
+            ? "border-red-500 focus:border-red-500"
+            : "border-gray-300 focus:border-blue-500"
+        } py-2 px-3 text-gray-700 leading-tight focus:outline-none placeholder-transparent`}
         placeholder="Password"
         id="password"
         name="password"
