@@ -50,7 +50,7 @@ const SignUp = () => {
         );
         await sendEmailVerification(auth.currentUser).then(async () => {
           setLoading(false);
-          router.push("/users/verify-email")
+          router.push("/users/verify-email");
           await updateProfile(auth.currentUser, {
             displayName: username,
           });
@@ -80,7 +80,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className=" rounded w-40 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="shadow rounded w-40 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Spinner type="Signing... up" /> : "Sign Up"}
               </button>

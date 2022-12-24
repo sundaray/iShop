@@ -5,7 +5,7 @@ const VerifyEmail = () => {
   return (
     <>
       <div className="shadow-md border rounded-xl w-11/12 md:w-3/5 xl:w-2/5 flex flex-col mt-24 m-auto py-8 px-4">
-        <h1 className="font-black text-3xl text-center mb-8">
+        <h1 className="font-black text-blue-600 text-3xl text-center mb-8">
           Verify Your Email
         </h1>
         <p className="mb-4">
