@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const errorVariant = {
@@ -17,13 +17,11 @@ const errorVariant = {
 };
 
 const FormInputDesc = ({ formik }) => {
-  const [eye, setEye] = useState(true);
-
   return (
     <div className="flex flex-col mb-6 relative">
       <textarea
         className={`rounded peer appearance-none bg-white border ${
-          formik.touched.password && formik.errors.password
+          formik.touched.description && formik.errors.description
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"
         } py-2 px-3 text-gray-700 leading-tight focus:outline-none placeholder-transparent`}
