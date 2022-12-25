@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
-import InputUsername from "../../components/shared/InputUsername";
+import InputUsername from "../../components/shared/FormInput";
 import InputEmail from "../../components/shared/InputEmail";
 import InputPassword from "../../components/shared/InputPassword";
 
@@ -35,28 +35,7 @@ const Upload = () => {
         .min(5, "Must be 5 characters or more")
         .required("Password is required"),
     }),
-    onSubmit: async ({ username, email, password }) => {
-      try {
-        setLoading(true);
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await sendEmailVerification(auth.currentUser).then(async () => {
-          setLoading(false);
-          router.push("/users/verify-email");
-          await updateProfile(auth.currentUser, {
-            displayName: username,
-          });
-        });
-      } catch (error) {
-        setLoading(false);
-        if (error.code === "auth/email-already-in-use") {
-          setError("User already registered");
-        }
-      }
-    },
+    onSubmit: async ({ username, email, password }) => {},
   });
   return (
     <>

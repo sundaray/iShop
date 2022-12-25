@@ -12,8 +12,7 @@ import {
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
-import InputUsername from "../../components/shared/InputUsername";
-import InputEmail from "../../components/shared/InputEmail";
+import FormInput from "../../components/shared/FormInput";
 import InputPassword from "../../components/shared/InputPassword";
 
 const SignUp = () => {
@@ -73,8 +72,18 @@ const SignUp = () => {
       >
         <div className="flex flex-col">
           <div className="mx-8 mt-12">
-            <InputUsername formik={formik} />
-            <InputEmail formik={formik} />
+            <FormInput
+              formik={formik}
+              label="Username"
+              field="username"
+              type="text"
+            />
+            <FormInput
+              formik={formik}
+              label="Email"
+              field="email"
+              type="email"
+            />
             <InputPassword formik={formik} />
             <div className="flex justify-between items-center mb-8">
               <button

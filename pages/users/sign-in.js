@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../utils/firebase.config";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
-import InputEmail from "../../components/shared/InputEmail";
+import FormInput from "../../components/shared/FormInput";
 import InputPassword from "../../components/shared/InputPassword";
 import SignInWithGoogle from "../../components/shared/SignInWithGoogle";
 import Spinner from "../../components/shared/Spinner";
@@ -70,7 +70,12 @@ const SignIn = () => {
       >
         <div className="flex flex-col">
           <div className="mx-8 mt-8">
-            <InputEmail formik={formik} />
+            <FormInput
+              formik={formik}
+              label="Email"
+              field="email"
+              type="email"
+            />
             <InputPassword formik={formik} />
             <div className="flex justify-between items-center mb-6">
               <button
