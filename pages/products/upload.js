@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { auth } from "../../utils/firebase.config";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
@@ -32,10 +30,12 @@ const Upload = () => {
       description: Yup.string()
         .max(500, "Must be less than 500 characters")
         .required("Description is required"),
-      price: Yup.number().positive().required("Price is required"),
+      price: Yup.number()
+        .positive("Price must be a positive number")
+        .required("Price is required"),
       stockCount: Yup.number()
-        .positive()
-        .integer()
+        .positive("Stock count must be a positive number")
+        .integer("Stock count must be a whole number")
         .required("Stock count is required"),
     }),
     onSubmit: async ({ name, description, price, stockCount }) => {},
