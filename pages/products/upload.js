@@ -7,9 +7,8 @@ import * as Yup from "yup";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
-import InputUsername from "../../components/shared/FormInput";
-import InputEmail from "../../components/shared/InputEmail";
-import InputPassword from "../../components/shared/InputPassword";
+import FormInput from "../../components/shared/FormInput";
+import FormInputDesc from "../../components/shared/FormInputDesc";
 
 const Upload = () => {
   const [success, setSuccess] = useState(null);
@@ -20,22 +19,27 @@ const Upload = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      email: "",
-      password: "",
+      name: "",
+      category: "",
+      description: "",
+      price: "",
+      stockCount: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string()
-        .max(10, "Must be less than 10 characters")
-        .required("Username is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      password: Yup.string()
+      name: Yup.string()
+        .max(50, "Must be less than 50 characters")
+        .required("Name is required"),
+      description: Yup.string()
+        .max(500, "Must be less than 500 characters")
+        .required("Description is required"),
+      price: Yup.string()
+        .min(5, "Must be 5 characters or more")
+        .required("Price is required"),
+      stockCount: Yup.string()
         .min(5, "Must be 5 characters or more")
         .required("Password is required"),
     }),
-    onSubmit: async ({ username, email, password }) => {},
+    onSubmit: async ({ name, description, price, stockCount }) => {},
   });
   return (
     <>
@@ -46,16 +50,15 @@ const Upload = () => {
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
-          <div className="mx-8 mt-12">
-            <InputUsername formik={formik} />
-            <InputEmail formik={formik} />
-            <InputPassword formik={formik} />
+          <div className="mx-8 my-12">
+            <FormInput formik={formik} label="Name" field="name" type="text" />
+            <FormInputDesc formik={formik} />
             <button
               type="submit"
               disabled={loading}
               className="shadow rounded w-40 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? <Spinner type="Signing... up" /> : "Sign Up"}
+              {loading ? <Spinner type="Uploading..." /> : "Upload"}
             </button>
           </div>
         </div>
