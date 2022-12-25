@@ -65,7 +65,7 @@ const SignIn = () => {
     <>
       <ErrorFormSubmission error={error} setError={setError} />
       <form
-        className="relative shadow-md w-11/12 md:w-3/5 xl:w-2/5 flex flex-col rounded-xl mt-20 m-auto"
+        className="relative shadow-md w-11/12 md:w-3/5 xl:w-1/3 flex flex-col rounded-xl mt-20 m-auto"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
@@ -76,7 +76,7 @@ const SignIn = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-36 shadow rounded bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-36 shadow rounded bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Spinner type="Signing... in" /> : "Sign in"}
               </button>
