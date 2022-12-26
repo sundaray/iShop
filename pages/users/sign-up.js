@@ -13,7 +13,7 @@ import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
-import InputPassword from "../../components/shared/InputPassword";
+import FormInputPassword from "../../components/shared/FormInputPassword";
 
 const SignUp = () => {
   const [success, setSuccess] = useState(null);
@@ -63,11 +63,12 @@ const SignUp = () => {
     },
   });
   return (
-    <>
+    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-20 m-auto">
+      <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">Sign up for an account</h1>
       <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
-        className="shadow-md border rounded-xl w-11/12 md:w-3/5 xl:w-2/5 flex flex-col mt-24 m-auto"
+        className="shadow border rounded-xl flex flex-col"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
@@ -84,14 +85,14 @@ const SignUp = () => {
               field="email"
               type="email"
             />
-            <InputPassword formik={formik} />
+            <FormInputPassword formik={formik} />
             <div className="flex justify-between items-center mb-8">
               <button
                 type="submit"
                 disabled={loading}
-                className="shadow rounded w-40 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="shadow rounded w-full py-2 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? <Spinner type="Signing... up" /> : "Sign Up"}
+                {loading ? <Spinner type="Signing... up" /> : "Sign up"}
               </button>
             </div>
           </div>
@@ -100,14 +101,14 @@ const SignUp = () => {
               <p className="text-sm text-gray-700 font-medium ">
                 Already a user?{" "}
                 <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
-                  Sign In
+                  Sign in
                 </span>
               </p>
             </Link>
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 export default SignUp;

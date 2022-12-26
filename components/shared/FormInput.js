@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const errorVariant = {
@@ -17,6 +17,7 @@ const errorVariant = {
 };
 
 const FormInput = ({ formik, label, field, type }) => {
+
   return (
     <div className="flex flex-col mb-6 relative">
       <input

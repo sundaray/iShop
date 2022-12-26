@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../utils/firebase.config";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import FormInput from "../../components/shared/FormInput";
-import InputPassword from "../../components/shared/InputPassword";
+import FormInputPassword from "../../components/shared/FormInputPassword";
 import SignInWithGoogle from "../../components/shared/SignInWithGoogle";
 import Spinner from "../../components/shared/Spinner";
 
@@ -62,10 +62,11 @@ const SignIn = () => {
     },
   });
   return (
-    <>
+    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-20 m-auto">
+    <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">Sign in to your account</h1>
       <ErrorFormSubmission error={error} setError={setError} />
       <form
-        className="relative shadow-md w-11/12 md:w-3/5 xl:w-1/3 flex flex-col rounded-xl mt-20 m-auto"
+        className="relative shadow flex flex-col rounded-xl m-auto"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
@@ -76,21 +77,19 @@ const SignIn = () => {
               field="email"
               type="email"
             />
-            <InputPassword formik={formik} />
-            <div className="flex justify-between items-center mb-6">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-36 shadow rounded bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? <Spinner type="Signing... in" /> : "Sign in"}
-              </button>
-              <Link href="/users/forgot-password">
-                <p className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline transition-all">
-                  Forgot password
-                </p>
-              </Link>
-            </div>
+            <FormInputPassword formik={formik} />
+            <Link href="/users/reset-password">
+              <p className="text-sm font-medium text-right mb-6 text-blue-600 hover:text-blue-700 hover:underline transition-all">
+                Forgot your password?
+              </p>
+            </Link>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 shadow rounded mb-6 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? <Spinner type="Signing... in" /> : "Sign in"}
+            </button>
           </div>
           <div className="rounded-b-xl bg-gray-100 w-full h-24 px-8 flex flex-col md:flex-row justify-evenly md:justify-center items-center">
             <SignInWithGoogle />
@@ -107,7 +106,7 @@ const SignIn = () => {
           </Link>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 export default SignIn;
