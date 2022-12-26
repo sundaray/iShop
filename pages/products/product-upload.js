@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
@@ -18,7 +19,6 @@ const ProductUpload = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      category: "",
       description: "",
       price: "",
       stockCount: "",
@@ -38,7 +38,12 @@ const ProductUpload = () => {
         .integer("Stock count must be a whole number")
         .required("Stock count is required"),
     }),
-    onSubmit: async ({ name, description, price, stockCount }) => {},
+    onSubmit: async ({ name, description, price, stockCount }) => {
+      const { data } = await axios.post("/api/post-products", {
+        name, description, price, stockCount
+      });
+      console.log(data);
+    },
   });
   return (
     <>
@@ -67,7 +72,7 @@ const ProductUpload = () => {
           <button
             type="submit"
             disabled={loading}
-            className="shadow rounded w-full bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            className="shadow rounded w-36 py-2 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? <Spinner type="Uploading..." /> : "Upload"}
           </button>

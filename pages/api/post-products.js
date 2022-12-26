@@ -1,7 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
+import prisma from "../../lib/prisma"
 
 export default async function handler(req, res) {
 
@@ -21,7 +18,7 @@ export default async function handler(req, res) {
     }else {
         res.setHeader('Allow', ['POST'])
         res.status(405).json({
-            message:`HTTP method ${req.method} is not supported.`
+            message:`HTTP method ${req.method} is not allowed.`
         })
     }
 };
