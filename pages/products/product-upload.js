@@ -8,7 +8,7 @@ import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
 import FormInputDesc from "../../components/shared/FormInputDesc";
 
-const Upload = () => {
+const ProductUpload = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ const Upload = () => {
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col mx-8 my-8">
-          <h1 className="font-black text-3xl mb-6">Product</h1>
+          <h1 className="font-bold text-3xl mb-6">Product</h1>
           <FormInput formik={formik} label="Name" field="name" type="text" />
           <FormInputDesc formik={formik} />
           <FormInput
@@ -67,7 +67,7 @@ const Upload = () => {
           <button
             type="submit"
             disabled={loading}
-            className="shadow rounded w-36 bg-blue-600 text-white px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            className="shadow rounded w-full bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? <Spinner type="Uploading..." /> : "Upload"}
           </button>
@@ -76,4 +76,4 @@ const Upload = () => {
     </>
   );
 };
-export default Upload;
+export default ProductUpload;
