@@ -10,6 +10,8 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+import { getStorage } from "firebase/storage";
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -23,6 +25,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 export const db = getFirestore();
+export const storage = getStorage();
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({

@@ -29,22 +29,23 @@ const SuccessFormSubmission = ({ success, setSuccess }) => {
           initial="initial"
           animate="animate"
           exit="initial"
-          className="absolute top-5 m-auto right-0 left-0 flex justify-between items-center bg-green-500 w-11/12  md:w-3/5 xl:w-2/5 h-10 mb-4 shadow-sm rounded px-3 py-8"
+          className="absolute top-5 m-auto right-0 left-0 flex justify-between items-center bg-green-500 w-11/12  md:w-3/5 xl:w-1/3 h-10 mb-4 shadow-sm rounded px-3 py-4"
         >
-          <p className="text-left">{success}</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-9 h-9 text-gray-800 hover:scale-110 cursor-pointer transition-all"
-            onClick={() => setSuccess(null)}
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 text-white"
           >
             <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-              clip-rule="evenodd"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
+          <p className="text-left text-green-50">{success}</p>
         </motion.div>
       )}
     </AnimatePresence>

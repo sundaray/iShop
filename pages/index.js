@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase.config";
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}
 
 const Home = () => {
   const [name, setName] = useState(null);

@@ -29,7 +29,7 @@ const ErrorFormSubmission = ({ error, setError }) => {
           initial="initial"
           animate="animate"
           exit="initial"
-          className="absolute top-6 m-auto right-0 left-0 flex justify-between items-center bg-red-500 w-11/12  md:w-3/5 xl:w-2/5 h-10 mb-4  shadow-sm rounded px-4 py-2"
+          className="absolute top-6 m-auto right-0 left-0 flex justify-between items-center bg-red-500 w-11/12  md:w-3/5 xl:w-1/3 h-10 mb-4  shadow-sm rounded px-4 py-2"
         >
           <p className="text-center text-white">{error}</p>
           <svg
