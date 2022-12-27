@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase.config";
-import { v4 as uuidv4 } from "uuid";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
@@ -42,60 +41,59 @@ const ProductUpload = () => {
         .integer("Stock count must be a whole number")
         .required("Stock count is required"),
     }),
-    onSubmit: async (values, { resetForm }) => {
-      console.log(values);
-      // const storeImage = async (image) => {
-      //   return new Promise((resolve, reject) => {
-      //     const fileName = `${image.name}-${uuidv4()}`;
+    onSubmit: async ({ images }, { resetForm }) => {
+      const storeImage = async (image) => {
+        return new Promise((resolve, reject) => {
+          const storageRef = ref(storage, "images/" + image.name);
 
-      //     const storageRef = ref(storage, "images/" + fileName);
+          const uploadTask = uploadBytesResumable(storageRef, image);
 
-      //     const uploadTask = uploadBytesResumable(storageRef, image);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+              }
+            },
+            (error) => {
+              reject(error);
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                resolve(downloadURL);
+              });
+            }
+          );
+        });
+      };
 
-      //     uploadTask.on(
-      //       "state_changed",
-      //       (snapshot) => {
-      //         const progress =
-      //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //         console.log("Upload is " + progress + "% done");
-      //         switch (snapshot.state) {
-      //           case "paused":
-      //             console.log("Upload is paused");
-      //             break;
-      //           case "running":
-      //             console.log("Upload is running");
-      //             break;
-      //         }
-      //       },
-      //       (error) => {
-      //         reject(error);
-      //       },
-      //       () => {
-      //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      //           resolve(downloadURL);
-      //         });
-      //       }
-      //     );
-      //   });
-      // };
+      const imageUrls = await Promise.all(
+        images.map(async (image) => {
+          console.log(image);
+          return await storeImage(image);
+        })
+      ).catch((error) => {
+        setLoading(false);
+        setError(error.message);
+      });
 
-      // const imgUrls = await Promise.all(
-      //   [...images].map((image) => {
-      //     console.log(image);
-      //     storeImage(image);
-      //   })
-      // ).catch((error) => {
-      //   setLoading(false);
-      //   setError(error.message);
-      // });
-
-      // console.log(imgUrls);
+      if (imageUrls) {
+        console.log(imageUrls);
+      }
     },
   });
   return (
     <div className="w-11/12 md:w-3/5 xl:w-1/3 m-auto my-24">
       <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">
-        Create & upload product
+        Product
       </h1>
       <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />

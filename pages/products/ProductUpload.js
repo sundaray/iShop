@@ -1,6 +1,5 @@
 import React from "react";
 import { useFormik } from "formik";
-import { v4 as uuidv4 } from "uuid";
 import InputImage from "../../components/shared/InputImage";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase.config";
@@ -11,12 +10,8 @@ const ProductUpload = () => {
       images: [],
     },
     onSubmit: async ({ images }) => {
-    //   const imagesArray = images.map((image) => image.name);
-
       const storeImage = async (image) => {
         return new Promise((resolve, reject) => {
-        //   const fileName = `${image}-${uuidv4()}`;
-
           const storageRef = ref(storage, "images/" + image);
 
           const uploadTask = uploadBytesResumable(storageRef, image);

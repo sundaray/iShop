@@ -1,20 +1,4 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
-const errorVariant = {
-  initial: {
-    opacity: 0,
-    x: "-0.1rem",
-  },
-  animate: {
-    opacity: 1,
-    x: "0rem",
-  },
-  exit: {
-    opacity: 0,
-    x: "-0.1rem",
-  },
-};
 
 const FormInputImages = ({ formik }) => {
   return (
@@ -27,7 +11,7 @@ const FormInputImages = ({ formik }) => {
         type="file"
         accept=".png, .jpeg, .jpg"
         onChange={(event) => {
-          formik.setFieldValue("images", Array.from(event.target.images));
+          formik.setFieldValue("images", Array.from(event.target.files));
         }}
         multiple
       />
@@ -37,21 +21,6 @@ const FormInputImages = ({ formik }) => {
       >
         Images
       </label>
-      <AnimatePresence>
-        {formik.touched.images && formik.errors.images ? (
-          <motion.span
-            variants={errorVariant}
-            initial="initial"
-            animate="animate"
-            exit="initial"
-            className="mt-1 text-red-500 text-xs"
-          >
-            {formik.errors.images}
-          </motion.span>
-        ) : (
-          ""
-        )}
-      </AnimatePresence>
     </div>
   );
 };
