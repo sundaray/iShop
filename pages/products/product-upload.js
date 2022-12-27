@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase.config";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
@@ -41,7 +42,10 @@ const ProductUpload = () => {
         .integer("Stock count must be a whole number")
         .required("Stock count is required"),
     }),
-    onSubmit: async ({ images }, { resetForm }) => {
+    onSubmit: async (
+      { images, name, description, price, stockCount },
+      { resetForm }
+    ) => {
       const storeImage = async (image) => {
         return new Promise((resolve, reject) => {
           const storageRef = ref(storage, "images/" + image.name);
@@ -85,8 +89,15 @@ const ProductUpload = () => {
         setError(error.message);
       });
 
-      if (imageUrls) {
-        console.log(imageUrls);
+      const { data } = await axios.post("/api/post-products", {
+        name,
+        description,
+        price,
+        stockCount,
+      });
+
+      if (data) {
+        console.log(data);
       }
     },
   });
