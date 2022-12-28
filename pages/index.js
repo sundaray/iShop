@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase.config";
@@ -40,6 +41,12 @@ const Home = () => {
         {products &&
           products.map((product) => (
             <div key={product.id} className="border rounded w-1/5 px-2 py-2">
+              <Image
+                src={product.imgUrls[1]}
+                width={500}
+                height={500}
+                alt="Picture of the product"
+              />
               <h1>Name: {product.name}</h1>
               <p>Description: {product.description}</p>
               <p>Price: {product.price}</p>
