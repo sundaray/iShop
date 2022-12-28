@@ -1,24 +1,14 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../utils/firebase.config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Navigation = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    setUser(localStorage.getItem("displayName") || null);
-  }, []);
-
-  const router = useRouter();
+  const [user] = useAuthState(auth);
 
   const handleSignOut = () => {
     localStorage.removeItem("displayName");
-    setUser(null);
-    signOut(auth).then(() => {
-      router.push("/");
-    });
+    signOut(auth);
   };
 
   return (
@@ -32,7 +22,9 @@ const Navigation = () => {
             <li>Cart</li>
           </Link>
           {!user ? (
-            ""
+            <Link href="/users/sign-in">
+              <li>Sign in</li>
+            </Link>
           ) : (
             <li onClick={handleSignOut} className="cursor-pointer">
               Sign out
