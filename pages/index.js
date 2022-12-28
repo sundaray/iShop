@@ -39,7 +39,7 @@ const Home = () => {
                 alt="Picture of the product"
                 className="rounded shadow-sm mb-4"
               />
-              <Link href="/">
+              <Link href={`/products/${product.id}`}>
                 <h1 className="font-medium mb-4">{product.name}</h1>
               </Link>
               <h2 className="font-bold text-xl">${product.price}</h2>

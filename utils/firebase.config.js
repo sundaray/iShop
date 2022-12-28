@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useRouter } from "next/router";
 
 import {
   getFirestore,
@@ -102,4 +103,16 @@ export const fetchProducts = async (fn) => {
     })
   );
   fn(products);
+  return;
+};
+
+// fetch product
+
+
+export const fetchProduct = async (fn, productId) => {
+  const firestoreQuery = query(collection(db, "products"));
+  const querySnapshot = await getDocs(firestoreQuery);
+  const product = querySnapshot.docs.find((doc) => doc.id === productId);
+  const productData = product.data();
+  fn(productData);
 };
