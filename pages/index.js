@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase.config";
-
-export async function getServerSideProps() {
-  return {
-    props: {},
-  };
-}
+import { db } from "../utils/firebase.config";
+import { collection, query, getDocs } from "firebase/firestore";
 
 const Home = () => {
   const [name, setName] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     setName(localStorage.getItem("displayName") || null);
+
+    const fetchProducts = async () => {
+      const firestoreQuery = query(collection(db, "products"));
+      const querySnapshot = await getDocs(firestoreQuery);
+      const products = querySnapshot.docs.map((doc) => doc.data());
+      setProducts(products);
+    };
+
+    fetchProducts();
   }, []);
 
   const router = useRouter();
@@ -31,6 +36,17 @@ const Home = () => {
   return (
     <>
       <h1 className="text-2xl font-bold">Hello World!</h1>
+      <div>
+        {products &&
+          products.map((product) => (
+            <div key={product.id} className="border rounded w-1/5 px-2 py-2">
+              <h1>Name: {product.name}</h1>
+              <p>Description: {product.description}</p>
+              <p>Price: {product.price}</p>
+              <p>Stock count: {product.stockCount}</p>
+            </div>
+          ))}
+      </div>
       <div>
         {!name && (
           <div className="fixed top-2 md:top-4 right-2 md:right-4 flex rounded-full">
