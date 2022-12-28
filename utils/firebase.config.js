@@ -11,6 +11,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  where,
   serverTimestamp,
 } from "firebase/firestore";
 
@@ -106,9 +107,8 @@ export const fetchProducts = async (fn) => {
   return;
 };
 
+
 // fetch product
-
-
 export const fetchProduct = async (fn, productId) => {
   const firestoreQuery = query(collection(db, "products"));
   const querySnapshot = await getDocs(firestoreQuery);
