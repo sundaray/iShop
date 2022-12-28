@@ -39,8 +39,10 @@ const ResetPassword = () => {
     },
   });
   return (
-    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-20 m-auto">
-      <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">Reset your password</h1>
+    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
+      <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">
+        Reset your password
+      </h1>
       <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
@@ -50,12 +52,12 @@ const ResetPassword = () => {
         <div className="flex flex-col">
           <div className="mx-8 mt-8">
             <div className="mb-8">
-            <FormInput
-              formik={formik}
-              label="Email"
-              field="email"
-              type="email"
-            />
+              <FormInput
+                formik={formik}
+                label="Email"
+                field="email"
+                type="email"
+              />
               <button
                 type="submit"
                 disabled={loading}

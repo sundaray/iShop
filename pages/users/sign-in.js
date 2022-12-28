@@ -62,8 +62,10 @@ const SignIn = () => {
     },
   });
   return (
-    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-20 m-auto">
-    <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">Sign in to your account</h1>
+    <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
+      <h1 className="font-bold text-3xl text-gray-900 text-center mb-6">
+        Sign in to your account
+      </h1>
       <ErrorFormSubmission error={error} setError={setError} />
       <form
         className="relative shadow flex flex-col rounded-xl m-auto"

@@ -92,7 +92,7 @@ const ProductUpload = () => {
 
       //Save the product in firestore
       try {
-        setLoading(true)
+        setLoading(true);
         const newProductRef = doc(collection(db, "products"));
         await setDoc(newProductRef, {
           name,
@@ -106,7 +106,7 @@ const ProductUpload = () => {
         setLoading(false);
         resetForm();
         setSuccess(true);
-        setTimeout(() => router.push("/"), 500)
+        setTimeout(() => router.push("/"), 500);
       } catch (error) {
         setLoading(false);
         setError(error.message);
@@ -144,15 +144,24 @@ const ProductUpload = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`shadow rounded w-36 px-2 py-2 ${success === true ?"bg-green-600 text-green-50" : "bg-blue-600 text-blue-50"}  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`shadow rounded w-36 px-2 py-2 ${
+              success === true
+                ? "bg-green-600 text-green-50"
+                : "bg-blue-600 text-blue-50"
+            }  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            {loading ? <Spinner type="Uploading..." /> : success ? "Uploaded" : "Upload"}
+            {loading ? (
+              <Spinner type="Uploading..." />
+            ) : success ? (
+              "Uploaded"
+            ) : (
+              "Upload"
+            )}
           </button>
         </div>
       </form>
     </div>
   );
 };
-
 
 export default ProductUpload;

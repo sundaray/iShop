@@ -12,7 +12,7 @@ const Home = () => {
 
 
   return (
-    <main>
+    <main className="mt-24">
       <div>
         {products &&
           products.map((product) => (
