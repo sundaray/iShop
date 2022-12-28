@@ -6,7 +6,6 @@ import { db } from "../../utils/firebase.config";
 import { storage } from "../../utils/firebase.config";
 import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
@@ -14,8 +13,8 @@ import FormInputDesc from "../../components/shared/FormInputDesc";
 import FormInputImage from "../../components/shared/FormInputImage";
 
 const ProductUpload = () => {
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -47,8 +46,7 @@ const ProductUpload = () => {
       { images, name, description, price, stockCount },
       { resetForm }
     ) => {
-      console.log(typeof price);
-      console.log(typeof stockCount);
+      setLoading(true);
       const storeImage = async (image) => {
         return new Promise((resolve, reject) => {
           const storageRef = ref(storage, "images/" + image.name);
@@ -88,20 +86,31 @@ const ProductUpload = () => {
         })
       ).catch((error) => {
         setLoading(false);
+        setSuccess(false);
         setError(error.message);
       });
 
       //Save the product in firestore
-
-      if (imageUrls) {
-        const newProductRef = doc(collection(db, "products"))
-        const newProduct= await setDoc(newProductRef, {
+      try {
+        setLoading(true)
+        const newProductRef = doc(collection(db, "products"));
+        await setDoc(newProductRef, {
           name,
           description,
           price,
           stockCount,
           imgUrls: imageUrls,
+          timestamp: serverTimestamp(),
         });
+
+        setLoading(false);
+        resetForm();
+        setSuccess(true);
+        setTimeout(() => router.push("/"), 500)
+      } catch (error) {
+        setLoading(false);
+        setError(error.message);
+        setSuccess(false);
       }
     },
   });
@@ -111,7 +120,6 @@ const ProductUpload = () => {
       <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">
         Product
       </h1>
-      <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
       <form
         className="shadow-md border rounded-xl flex flex-col"
@@ -136,13 +144,15 @@ const ProductUpload = () => {
           <button
             type="submit"
             disabled={loading}
-            className="shadow rounded w-36 py-2 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`shadow rounded w-36 px-2 py-2 ${success === true ?"bg-green-600 text-green-50" : "bg-blue-600 text-blue-50"}  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            {loading ? <Spinner type="Uploading..." /> : "Upload"}
+            {loading ? <Spinner type="Uploading..." /> : success ? "Uploaded" : "Upload"}
           </button>
         </div>
       </form>
     </div>
   );
 };
+
+
 export default ProductUpload;
