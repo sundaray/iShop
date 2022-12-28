@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase.config";
-import { db } from "../utils/firebase.config";
-import { collection, query, getDocs } from "firebase/firestore";
+import { fetchProducts } from "../utils/firebase.config";
 
 const Home = () => {
   const [name, setName] = useState(null);
@@ -13,15 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     setName(localStorage.getItem("displayName") || null);
-
-    const fetchProducts = async () => {
-      const firestoreQuery = query(collection(db, "products"));
-      const querySnapshot = await getDocs(firestoreQuery);
-      const products = querySnapshot.docs.map((doc) => doc.data());
-      setProducts(products);
-    };
-
-    fetchProducts();
+    fetchProducts(setProducts);
   }, []);
 
   const router = useRouter();
@@ -40,17 +31,18 @@ const Home = () => {
       <div>
         {products &&
           products.map((product) => (
-            <div key={product.id} className="border rounded w-1/5 px-2 py-2">
+            <div key={product.id} className="border rounded w-1/5 px-4 py-4">
               <Image
-                src={product.imgUrls[1]}
+                src={product.imgUrls[0]}
                 width={500}
                 height={500}
                 alt="Picture of the product"
+                className="rounded shadow-sm mb-4"
               />
-              <h1>Name: {product.name}</h1>
-              <p>Description: {product.description}</p>
-              <p>Price: {product.price}</p>
-              <p>Stock count: {product.stockCount}</p>
+              <Link href="/">
+                <h1 className="font-medium mb-4">{product.name}</h1>
+              </Link>
+              <h2 className="font-bold text-xl">${product.price}</h2>
             </div>
           ))}
       </div>

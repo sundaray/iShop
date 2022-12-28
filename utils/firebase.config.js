@@ -3,8 +3,11 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import {
   getFirestore,
+  collection,
+  query,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   updateDoc,
   serverTimestamp,
@@ -85,4 +88,18 @@ export const updatePaidStatus = async (uid) => {
   await updateDoc(userDocRef, {
     isPaid: true,
   });
+};
+
+//Fetch products
+export const fetchProducts = async (fn) => {
+  const products = [];
+  const firestoreQuery = query(collection(db, "products"));
+  const querySnapshot = await getDocs(firestoreQuery);
+  querySnapshot.forEach((doc) =>
+    products.push({
+      id: doc.id,
+      ...doc.data(),
+    })
+  );
+  fn(products);
 };
