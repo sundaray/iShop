@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const Gallery = ({ imgUrls }) => {
+const ProductImageGallery = ({ product: {imgUrls} }) => {
   return (
     <div className="border rounded w-1/3">
       <Swiper
@@ -31,4 +31,4 @@ const Gallery = ({ imgUrls }) => {
   );
 };
 
-export default Gallery;
+export default ProductImageGallery;
