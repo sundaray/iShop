@@ -11,12 +11,18 @@ const Product = () => {
     fetchProduct(setProduct, productId);
   }, []);
 
+  if (product) {
+    console.log(product);
+  }
+
   return (
     <div>
-      {product && <div className="border rounded w-1/5 px-4 py-4">
-        <h1 className="font-medium mb-4">{product.name}</h1>
-        <h2 className="font-bold text-xl">${product.price}</h2>
-      </div>}
+      {product && (
+        <div className="border rounded w-1/5 mt-24 px-4 py-4">
+          <h1 className="font-medium mb-4">{product.name}</h1>
+          <h2 className="font-bold text-xl">${product.price}</h2>
+        </div>
+      )}
     </div>
   );
 };
