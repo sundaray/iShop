@@ -13,7 +13,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 right-0 w-full h-16 px-4 bg-gray-900 text-gray-300 flex items-center justify-between">
+      <nav className="z-10 fixed top-0 right-0 w-full h-16 px-4 bg-gray-900 text-gray-300 flex items-center justify-between">
         <Link href="/">
           <h1 className="font-bold hover:text-gray-50 transition-all">iShop</h1>
         </Link>

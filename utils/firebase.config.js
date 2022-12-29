@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useRouter } from "next/router";
 
 import {
   getFirestore,
@@ -11,7 +10,6 @@ import {
   getDocs,
   setDoc,
   updateDoc,
-  where,
   serverTimestamp,
 } from "firebase/firestore";
 
