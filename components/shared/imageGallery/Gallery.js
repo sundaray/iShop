@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 
 const Gallery = ({ imgUrls }) => {
   return (
-    <div className="border w-1/3">
+    <div className="border rounded w-1/3">
       <Swiper
         modules={[Navigation, Pagination, A11y]}
         slidesPerView={1}
