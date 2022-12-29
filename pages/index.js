@@ -22,7 +22,7 @@ const Home = () => {
                 width={500}
                 height={500}
                 alt="Picture of the product"
-                className="rounded shadow-sm mb-4"
+                className="rounded mb-4"
               />
               <Link href={`/products/${product.id}`}>
                 <h1 className="font-medium mb-4">{product.name}</h1>
