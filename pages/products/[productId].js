@@ -7,11 +7,14 @@ import { fetchProduct } from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDetails from "../../components/shared/product/ProductDetails";
 import ProductQuantity from './../../components/shared/product/ProductQuantity';
-import { AddToCart } from "../../utils/firebase.config";
+import { addToCart } from "../../utils/firebase.config";
 
 const Product = () => {
-  const [qty, setQty] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState(false);
 
   const [user] = useAuthState(auth);
 
@@ -22,13 +25,17 @@ const Product = () => {
     fetchProduct(setProduct, productId);
   }, []);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (product, qty, setLoading, setSuccess, setError) => {
     if(!user) {
-      router.push("/users/sign-in")
-    }else {
-      AddToCart(product, qty);
+      router.query.from = `/products/${window.location.pathname.split("/")[2]}`
+      router.push({
+        pathname: "/users/sign-in",
+        query: { from: router.query.from },
+      })
+    } 
+      addToCart(product, qty, setLoading, setSuccess);
     }
-  }
+  
 
   if (!product) {
     return <p>Loading...</p>;
@@ -59,7 +66,11 @@ const Product = () => {
       <main className="w-11/12 mt-32 mb-12 m-auto flex justify-center space-x-16 ">
         <ProductImageGallery product={product} />
         <ProductDetails product={product}/>
-        <ProductQuantity product={product} setQty={setQty} handleCartItem={handleAddToCart}/>
+        <ProductQuantity product={product} setQty={setQty} 
+        handleCartItem={() => handleAddToCart(product, qty, setLoading, setSuccess, setError)} 
+        loading={loading} 
+        success={success} 
+        setError={setError}/>
       </main>
     </>
   );

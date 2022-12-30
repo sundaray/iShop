@@ -1,5 +1,7 @@
-const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem}) => {
-    return (
+import Spinner from "../Spinner";
+
+const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem, loading, success, error, setError}) => {
+  return (
         <div className="md:w-1/5 h-60 flex flex-col justify-between">
           <div className="flex justify-between items-center">
           <p>Price:</p>
@@ -12,23 +14,38 @@ const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem})
           </div>
           <hr></hr>
           <div className="flex justify-between items-center">
-            <p>Qty:</p>
+            <p >Quantity:</p>
             <select
               className="border rounded leading-tight focus:outline-none"
-              onChange={(event) => setQty(event.target.value)}
+              onChange={(event) => {
+                setQty(event.target.value)
+              }}
             >
               {[...Array(stockCount).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>
-                  {num + 1}
+                <option key={num+1} value={num+1}>
+                  {num+1}
                 </option>
               ))}
             </select>
           </div>
           <hr></hr>
           <div className="flex justify-between items-center py-1">
-          <button className="rounded bg-gray-900 hover:shadow-md text-gray-50 px-2 py-1 transition-all" 
-            onClick={handleCartItem}>
-            Add to cart
+          <button
+            onClick={handleCartItem}
+            disabled={loading}
+            className={`shadow rounded px-2 py-2 ${
+              success === true
+                ? "bg-green-600 text-green-50"
+                : "bg-blue-600 text-blue-50"
+            }  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {loading ? (
+              <Spinner type="Adding..." />
+            ) : success ? (
+              "Added"
+            ) : (
+              "Add to cart"
+            )}
           </button>
           </div>
         </div>

@@ -7,6 +7,8 @@ import { signInWithGooglePopup } from "../../utils/firebase.config";
 const SignInWithGoogle = () => {
   const router = useRouter();
 
+  console.log(router)
+
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     if(user) {

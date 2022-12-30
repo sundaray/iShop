@@ -114,10 +114,10 @@ export const fetchProduct = async (fn, productId) => {
 
 // Add item to cart
 
-export const AddToCart = async (product, qty) => {
+export const addToCart = async (product, qty, setLoading, setSuccess) => {
   const {name, description, price, stockCount, imgUrls} = product;
+  setLoading(true)
   try {
-    setLoading(true);
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
       name,
@@ -128,8 +128,9 @@ export const AddToCart = async (product, qty) => {
       imgUrls,
       timestamp: serverTimestamp(),
     });
-
+    setLoading(false);
+    setSuccess(true);
   } catch (error) {
+    setLoading(false);
     console.log("Error adding the product to cart", error.message);  }
-
 }
