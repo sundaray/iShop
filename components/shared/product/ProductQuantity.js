@@ -1,6 +1,6 @@
-const AddToCart = ({product: {price, stockCount}, setQty}) => {
+const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem}) => {
     return (
-        <div className="w-1/5 h-60 flex flex-col justify-between">
+        <div className="md:w-1/5 h-60 flex flex-col justify-between">
           <div className="flex justify-between items-center">
           <p>Price:</p>
           <p>${price}</p>
@@ -26,7 +26,8 @@ const AddToCart = ({product: {price, stockCount}, setQty}) => {
           </div>
           <hr></hr>
           <div className="flex justify-between items-center py-1">
-          <button className="rounded bg-gray-900 hover:shadow-md text-gray-50 px-2 py-1 transition-all">
+          <button className="rounded bg-gray-900 hover:shadow-md text-gray-50 px-2 py-1 transition-all" 
+            onClick={handleCartItem}>
             Add to cart
           </button>
           </div>
@@ -34,5 +35,5 @@ const AddToCart = ({product: {price, stockCount}, setQty}) => {
     );
   };
   
-  export default AddToCart;
+  export default ProductQuantity;
   

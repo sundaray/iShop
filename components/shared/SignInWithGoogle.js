@@ -9,10 +9,11 @@ const SignInWithGoogle = () => {
 
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
-    localStorage.setItem("displayName", user.displayName);
-    router.replace(
-      router.query.from ? decodeURIComponent(router.query.from) : "/"
-    );
+    if(user) {
+      router.replace(
+        router.query.from ? decodeURIComponent(router.query.from) : "/"
+      );
+    }
   };
 
   return (

@@ -111,3 +111,25 @@ export const fetchProduct = async (fn, productId) => {
   const docSnap = await getDoc(docRef);
   fn(docSnap.data());
 };
+
+// Add item to cart
+
+export const AddToCart = async (product, qty) => {
+  const {name, description, price, stockCount, imgUrls} = product;
+  try {
+    setLoading(true);
+    const newCartItemRef = doc(collection(db, "cartItems"));
+    await setDoc(newCartItemRef, {
+      name,
+      description,
+      price,
+      qty,
+      stockCount,
+      imgUrls,
+      timestamp: serverTimestamp(),
+    });
+
+  } catch (error) {
+    console.log("Error adding the product to cart", error.message);  }
+
+}

@@ -41,7 +41,6 @@ const SignIn = () => {
         if (user.emailVerified) {
           setError(null);
           setLoading(false);
-          localStorage.setItem("displayName", user.displayName);
           router.replace(
             router.query.from ? decodeURIComponent(router.query.from) : "/"
           );
