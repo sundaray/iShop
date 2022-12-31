@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 import {
   getFirestore,
@@ -9,13 +10,10 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  addDoc,
   updateDoc,
   deleteDoc,
   serverTimestamp,
 } from "firebase/firestore";
-
-import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -27,7 +25,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth();
 export const db = getFirestore();
 export const storage = getStorage();
@@ -37,35 +34,8 @@ provider.setCustomParameters({
   prompt: "select_account",
 });
 
+// Sign in with Google login
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-
-export const createUserDocumentFromAuth = async (
-  user,
-  additionalUserData = {}
-) => {
-  const { displayName, email } = user;
-  const timestamp = serverTimestamp();
-
-  const userDocRef = doc(db, "users", user.uid);
-
-  const userSnapshot = await getDoc(userDocRef);
-
-  if (!userSnapshot.exists()) {
-    try {
-      setDoc(userDocRef, {
-        displayName,
-        email,
-        timestamp,
-        isAdmin: false,
-        isPaid: false,
-        ...additionalUserData,
-      });
-    } catch (error) {
-      console.log("Error creating the user", error.message);
-    }
-  }
-  return userDocRef;
-};
 
 export const checkAdminStatus = async (uid) => {
   const userDocRef = doc(db, "users", uid);
@@ -74,22 +44,6 @@ export const checkAdminStatus = async (uid) => {
   if (userSnapshot.exists()) {
     return userSnapshot.data();
   }
-};
-
-export const checkPaidStatus = async (uid) => {
-  const userDocRef = doc(db, "users", uid);
-  const userSnapshot = await getDoc(userDocRef);
-
-  if (userSnapshot.exists()) {
-    return userSnapshot.data();
-  }
-};
-export const updatePaidStatus = async (uid) => {
-  const userDocRef = doc(db, "users", uid);
-
-  await updateDoc(userDocRef, {
-    isPaid: true,
-  });
 };
 
 //Fetch products
@@ -148,7 +102,15 @@ export const fetchCartItems = async (setCartItems) => {
     })
   );
   setCartItems(cartItems);
-  return;
+};
+// Fetch cartItems quantity
+export const fetchCartItemsQty = async (setCartItemsQty) => {
+  const cartItems = [];
+  const firestoreQuery = query(collection(db, "cartItems"));
+  const querySnapshot = await getDocs(firestoreQuery);
+  querySnapshot.forEach((doc) => cartItems.push(Number(doc.data().qty)));
+  const cartItemsQty = cartItems.reduce((x, y) => x + y, 0);
+  setCartItemsQty(cartItemsQty);
 };
 
 // Update cart item

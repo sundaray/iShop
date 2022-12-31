@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import { fetchCartItems } from "../utils/firebase.config";
-import Navigation from "../components/shared/navigation/Navigation";
 import { updateCartItem } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 import { deleteCartItem } from "../utils/firebase.config";
+import { cartItemsQtyContext } from "./_app";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const [error, setError] = useState(false);
+
+  const { setCartItemsQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
     fetchCartItems(setCartItems);
@@ -20,11 +22,11 @@ const Cart = () => {
   const handleDeleteCartItem = (id) => {
     deleteCartItem(id);
     fetchCartItems(setCartItems);
+    setCartItemsQty(qty);
   };
 
   return (
     <>
-      <Navigation qty={qty} />
       <main className="w-9/12 mt-32 mb-12 m-auto">
         <div className="flex flex-col items-center space-y-8 mb-12 ">
           <p className="text-3xl font-medium text-gray-900">
@@ -43,14 +45,21 @@ const Cart = () => {
                 key={id}
                 className="w-3/5 mb-8 px-8 py-4 bg-gray-100 rounded-md flex justify-between items-center m-auto"
               >
-                <Image src={imgUrls[0]} width={150} height={150} alt={name} />
+                <Image
+                  priority
+                  src={imgUrls[0]}
+                  width={150}
+                  height={150}
+                  alt={name}
+                />
                 <select
                   className="bg-gray-100 first-line:leading-tight focus:outline-none cursor-pointer"
                   value={qty}
                   onChange={(event) => {
                     setQty(event.target.value);
-                    const qty = event.target.value;
-                    updateCartItem(id, qty);
+                    const updatedQty = event.target.value;
+                    updateCartItem(id, updatedQty);
+                    setCartItemsQty(updatedQty);
                   }}
                 >
                   {[...Array(stockCount).keys()].map((num) => (

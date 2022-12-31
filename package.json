@@ -25,7 +25,8 @@
     "react-firebase-hooks": "^5.1.1",
     "swiper": "^8.4.5",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.1.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
