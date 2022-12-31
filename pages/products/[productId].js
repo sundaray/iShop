@@ -31,33 +31,36 @@ const Product = () => {
   const handleAddToCart = async (product, qty, setLoading, setSuccess) => {
     const { name, description, price, stockCount, imgUrls } = product;
 
-    if (!user) {
-      router.query.from = `/products/${window.location.pathname.split("/")[2]}`;
-      router.push({
-        pathname: "/users/sign-in",
-        query: { from: router.query.from },
-      });
+
+    if (user) {
+      try {
+        setLoading(true);
+        const newCartItemRef = doc(collection(db, "cartItems"));
+        await setDoc(newCartItemRef, {
+          id: newCartItemRef.id,
+          name,
+          description,
+          price,
+          qty,
+          stockCount,
+          imgUrls,
+          timestamp: serverTimestamp(),
+        });
+        setLoading(false);
+        setSuccess(true);
+        setCartItemsQty(qty);
+        router.push("/cart");
+      } catch (error) {
+        setLoading(false);
+        console.log("Error adding the product to cart", error.message);
+      }  
     }
-    try {
-      setLoading(true);
-      const newCartItemRef = doc(collection(db, "cartItems"));
-      await setDoc(newCartItemRef, {
-        id: newCartItemRef.id,
-        name,
-        description,
-        price,
-        qty,
-        stockCount,
-        imgUrls,
-        timestamp: serverTimestamp(),
+    if(!user) {
+       router.query.from = `/products/${window.location.pathname.split("/")[2]}`;
+        router.push({
+          pathname: "/users/sign-in",
+          query: { from: router.query.from },
       });
-      setLoading(false);
-      setSuccess(true);
-      setCartItemsQty(qty);
-      router.push("/cart");
-    } catch (error) {
-      setLoading(false);
-      console.log("Error adding the product to cart", error.message);
     }
   };
 

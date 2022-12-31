@@ -9,7 +9,7 @@ import { cartItemsQtyContext } from "./_app";
 const Cart = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [qty, setQty] = useState(null);
+  const [itemQty, setItemQty] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const [error, setError] = useState(false);
 
@@ -17,12 +17,12 @@ const Cart = () => {
 
   useEffect(() => {
     fetchCartItems(setCartItems);
-  }, [qty]);
+  }, [itemQty]);
 
   const handleDeleteCartItem = (id) => {
     deleteCartItem(id);
     fetchCartItems(setCartItems);
-    setCartItemsQty(qty);
+    setCartItemsQty(itemQty);
   };
 
   return (
@@ -56,7 +56,7 @@ const Cart = () => {
                   className="bg-gray-100 first-line:leading-tight focus:outline-none cursor-pointer"
                   value={qty}
                   onChange={(event) => {
-                    setQty(event.target.value);
+                    setItemQty(event.target.value);
                     const updatedQty = event.target.value;
                     updateCartItem(id, updatedQty);
                     setCartItemsQty(updatedQty);
