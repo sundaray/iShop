@@ -2,7 +2,7 @@ import Spinner from "../Spinner";
 
 const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem, loading, success, error, setError}) => {
   return (
-        <div className="md:w-1/5 h-60 flex flex-col justify-between">
+        <div className="w-1/5 h-60 flex flex-col justify-between">
           <div className="flex justify-between items-center">
           <p>Price:</p>
           <p>${price}</p>
@@ -16,7 +16,7 @@ const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem, 
           <div className="flex justify-between items-center">
             <p >Quantity:</p>
             <select
-              className="border rounded leading-tight focus:outline-none"
+              className="bg-gray-50 first-line:leading-tight focus:outline-none"
               onChange={(event) => {
                 setQty(event.target.value)
               }}
@@ -29,7 +29,6 @@ const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem, 
             </select>
           </div>
           <hr></hr>
-          <div className="flex justify-between items-center py-1">
           <button
             onClick={handleCartItem}
             disabled={loading}
@@ -47,7 +46,6 @@ const ProductQuantity = ({product: {price, stockCount}, setQty, handleCartItem, 
               "Add to cart"
             )}
           </button>
-          </div>
         </div>
     );
   };

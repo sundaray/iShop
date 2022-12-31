@@ -95,6 +95,7 @@ const ProductUpload = () => {
         setLoading(true);
         const newProductRef = doc(collection(db, "products"));
         await setDoc(newProductRef, {
+          id: newProductRef.id,
           name,
           description,
           price,

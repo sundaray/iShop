@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  addDoc,
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -97,12 +98,10 @@ export const fetchProducts = async (fn) => {
   const querySnapshot = await getDocs(firestoreQuery);
   querySnapshot.forEach((doc) =>
     products.push({
-      id: doc.id,
       ...doc.data(),
     })
   );
   fn(products);
-  return;
 };
 
 // fetch product
@@ -112,14 +111,15 @@ export const fetchProduct = async (fn, productId) => {
   fn(docSnap.data());
 };
 
-// Add item to cart
 
+// Add item to cart
 export const addToCart = async (product, qty, setLoading, setSuccess) => {
   const {name, description, price, stockCount, imgUrls} = product;
   setLoading(true)
   try {
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
+      id: newCartItemRef.id,
       name,
       description,
       price,
@@ -130,7 +130,24 @@ export const addToCart = async (product, qty, setLoading, setSuccess) => {
     });
     setLoading(false);
     setSuccess(true);
+    window.location.assign("/cart")
   } catch (error) {
     setLoading(false);
-    console.log("Error adding the product to cart", error.message);  }
+    console.log("Error adding the product to cart", error.message);  
+  }
 }
+
+// Fetch cartItems
+export const fetchCartItems = async (setCartItems) => {
+  const cartItems = [];
+  const firestoreQuery = query(collection(db, "cartItems"));
+  const querySnapshot = await getDocs(firestoreQuery);
+  querySnapshot.forEach((doc) =>
+    cartItems.push({
+      ...doc.data(),
+    })
+  );
+  setCartItems(cartItems);
+  return;
+}
+
