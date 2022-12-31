@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <PrivateRoute protectedRoutes={protectedRoutes}>
-        <Navigation />
+        {/* <Navigation /> */}
         <Component {...pageProps} />
       </PrivateRoute>
     </>

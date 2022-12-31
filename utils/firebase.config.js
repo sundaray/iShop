@@ -151,3 +151,13 @@ export const fetchCartItems = async (setCartItems) => {
   return;
 }
 
+
+// Update cart item
+export const updateCartItem = async (id, qty) => {
+  console.log(qty)
+  const cartItemRef = doc(db, "cartItems", id);
+  await updateDoc(cartItemRef, {
+    qty
+  })
+}
+

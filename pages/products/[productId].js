@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {useRouter} from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase.config";
@@ -8,6 +7,7 @@ import ProductImageGallery from "../../components/shared/product/ProductImageGal
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from './../../components/shared/product/ProductQuantity';
 import { addToCart } from "../../utils/firebase.config";
+import Navigation from "../../components/shared/navigation/Navigation";
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
@@ -43,8 +43,9 @@ const Product = () => {
 
   return (
     <>
+      <Navigation qty={qty}/>
       <main className="w-11/12 mt-32 mb-12 m-auto flex flex-col space-y-16">
-        <div className="flex justify-center space-x-16 ">
+        <div className="flex justify-center items-center space-x-24 ">
         <ProductImageGallery product={product} />
         <ProductQuantity product={product} setQty={setQty} 
         handleCartItem={() => handleAddToCart(product, qty, setLoading, setSuccess, setError)} 
