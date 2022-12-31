@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchProducts } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
+import Navigation from "../components/shared/navigation/Navigation";
+
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +19,9 @@ const Home = () => {
   }
 
 
-  return (
+  return (  
+    <>
+    <Navigation />
     <main className="mt-24">
       <div>
         {!products ? <PageSpinner /> :
@@ -34,11 +38,12 @@ const Home = () => {
               <Link href={`/products/${product.id}`}>
                 <h1 className="font-medium mb-4">{product.name}</h1>
               </Link>
-              <h2 className="font-bold text-xl">${product.price}</h2>
+              <h2 className="font-medium">${product.price}</h2>
             </div>
           ))}
       </div>
     </main>
+    </>
   );
 };
 

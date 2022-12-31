@@ -145,7 +145,7 @@ const ProductUpload = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`shadow rounded w-36 px-2 py-2 ${
+            className={`shadow rounded w-full px-2 py-2 ${
               success === true
                 ? "bg-green-600 text-green-50"
                 : "bg-blue-600 text-blue-50"

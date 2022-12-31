@@ -11,6 +11,7 @@ import {
   setDoc,
   addDoc,
   updateDoc,
+  deleteDoc,
   serverTimestamp,
 } from "firebase/firestore";
 
@@ -111,11 +112,10 @@ export const fetchProduct = async (fn, productId) => {
   fn(docSnap.data());
 };
 
-
 // Add item to cart
 export const addToCart = async (product, qty, setLoading, setSuccess) => {
-  const {name, description, price, stockCount, imgUrls} = product;
-  setLoading(true)
+  const { name, description, price, stockCount, imgUrls } = product;
+  setLoading(true);
   try {
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
@@ -130,12 +130,12 @@ export const addToCart = async (product, qty, setLoading, setSuccess) => {
     });
     setLoading(false);
     setSuccess(true);
-    window.location.assign("/cart")
+    window.location.assign("/cart");
   } catch (error) {
     setLoading(false);
-    console.log("Error adding the product to cart", error.message);  
+    console.log("Error adding the product to cart", error.message);
   }
-}
+};
 
 // Fetch cartItems
 export const fetchCartItems = async (setCartItems) => {
@@ -149,15 +149,18 @@ export const fetchCartItems = async (setCartItems) => {
   );
   setCartItems(cartItems);
   return;
-}
-
+};
 
 // Update cart item
 export const updateCartItem = async (id, qty) => {
-  console.log(qty)
   const cartItemRef = doc(db, "cartItems", id);
   await updateDoc(cartItemRef, {
-    qty
-  })
-}
+    qty,
+  });
+};
 
+// Delete cart item
+export const deleteCartItem = async (id) => {
+  const cartItemRef = doc(db, "cartItems", id);
+  await deleteDoc(cartItemRef);
+};
