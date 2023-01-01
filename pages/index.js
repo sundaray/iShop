@@ -5,24 +5,18 @@ import { fetchProducts } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 
 const Home = () => {
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetchProducts(setProducts);
+    fetchProducts(setProducts, setLoading);
   }, []);
-
-  if (!products) {
-    return <PageSpinner />;
-  }
 
   return (
     <>
-      <main className="mt-24">
+      {loading ? <PageSpinner /> : <main className="mt-24">
         <div className="flex">
-          {!products ? (
-            <PageSpinner />
-          ) : (
-            products.map((product) => (
+          {products.map((product) => (
               <div
                 key={product.id}
                 className="border rounded shadow-sm w-1/5 mr-4 px-4 py-4"
@@ -41,9 +35,9 @@ const Home = () => {
                 <h2 className="font-medium">${product.price}</h2>
               </div>
             ))
-          )}
+          }
         </div>
-      </main>
+      </main>}
     </>
   );
 };

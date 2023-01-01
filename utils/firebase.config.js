@@ -47,16 +47,22 @@ export const checkAdminStatus = async (uid) => {
 };
 
 //Fetch products
-export const fetchProducts = async (fn) => {
-  const products = [];
-  const firestoreQuery = query(collection(db, "products"));
-  const querySnapshot = await getDocs(firestoreQuery);
-  querySnapshot.forEach((doc) =>
-    products.push({
-      ...doc.data(),
-    })
-  );
-  fn(products);
+export const fetchProducts = async (setProducts, setLoading) => {
+  try {
+    setLoading(true)
+    const products = [];
+    const firestoreQuery = query(collection(db, "products"));
+    const querySnapshot = await getDocs(firestoreQuery);
+    querySnapshot.forEach((doc) =>
+      products.push({
+        ...doc.data(),
+      })
+    );
+    setProducts(products);
+    setLoading(false);  
+  } catch(error) {
+    setLoading(false)
+  }
 };
 
 // fetch product
@@ -67,10 +73,10 @@ export const fetchProduct = async (fn, productId) => {
 };
 
 // Add item to cart
-export const addToCart = async (product, qty, setLoading, setSuccess) => {
+export const addToCart = async (router, product, qty, setLoading, setSuccess, setError) => {
   const { name, description, price, stockCount, imgUrls } = product;
-  setLoading(true);
   try {
+    setLoading(true);
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
       id: newCartItemRef.id,
@@ -84,10 +90,11 @@ export const addToCart = async (product, qty, setLoading, setSuccess) => {
     });
     setLoading(false);
     setSuccess(true);
-    window.location.assign("/cart");
+    router.push("/cart");
   } catch (error) {
     setLoading(false);
-    console.log("Error adding the product to cart", error.message);
+    setSuccess(false);
+    setError(error.message)
   }
 };
 

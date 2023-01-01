@@ -24,12 +24,11 @@ const Navigation = ({ qty }) => {
   const [user] = useAuthState(auth);
 
   const router = useRouter();
-
+  
   const { cartItemsQty } = useContext(cartItemsQtyContext);
-
+  
   const handleSignOut = () => {
-    signOut(auth);
-    router.push("/");
+    signOut(auth).then(() => router.replace("/"))
   };
 
   return (
@@ -51,7 +50,7 @@ const Navigation = ({ qty }) => {
                     initial="initial"
                     animate="animate"
                     exit="initial"
-                    className="rounded-full absolute -top-2 left-3 w-5 h-5 flex justify-center items-center bg-yellow-400"
+                    className="rounded-full absolute -top-2 left-3 w-5 h-5 flex justify-center items-center bg-yellow-300"
                   >
                     <p className="text-gray-900"> {qty}</p>
                   </motion.div>

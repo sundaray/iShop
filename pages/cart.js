@@ -37,7 +37,7 @@ const Cart = () => {
 
   return (
     <>
-      <main className="w-9/12 mt-32 mb-12 m-auto">
+      {loading ? <PageSpinner /> : <main className="w-9/12 mt-32 mb-12 m-auto">
         <div className="flex flex-col items-center space-y-8 mb-12 ">
           <p className="text-4xl font-medium text-gray-900">
             {cartItemsQty > 0 ? `Your cart total is $${totalPrice}.` : "Your cart is empty."}
@@ -89,7 +89,7 @@ const Cart = () => {
             ))
           )}
         </div>
-      </main>
+      </main>}
     </>
   );
 };
