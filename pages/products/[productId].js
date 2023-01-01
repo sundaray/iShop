@@ -8,6 +8,8 @@ import { fetchProduct } from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from "./../../components/shared/product/ProductQuantity";
+import PageSpinner from "../../components/shared/PageSpinner";
+import PageError from "../../components/shared/error/PageError";
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
@@ -24,12 +26,12 @@ const Product = () => {
 
   useEffect(() => {
     const productId = window.location.pathname.split("/")[2];
-    fetchProduct(setProduct, productId);
+    fetchProduct(setLoading, setError, setProduct, productId);
   }, []);
 
-  const handleAddToCart = (product, qty, setLoading, setSuccess, setError) => {
+  const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
-      addToCart(router, product, qty, setLoading, setSuccess, setError);
+      addToCart(router, product, qty, setLoading, setError);
       setCartItemsQty(qty);
     }
     if (!user) {
@@ -43,7 +45,11 @@ const Product = () => {
 
   return (
     <>
-      {product && (
+      {loading ? (
+        <PageSpinner />
+      ) : error ? (
+        <PageError error={error} setError={setError} />
+      ) : product ? (
         <main className="w-11/12 mt-32 mb-12 m-auto flex flex-col space-y-16">
           <div className="flex justify-center items-center space-x-24 ">
             <ProductImageGallery product={product} />
@@ -51,15 +57,16 @@ const Product = () => {
               product={product}
               setQty={setQty}
               handleCartItem={() =>
-                handleAddToCart(product, qty, setLoading, setSuccess, setError)
+                handleAddToCart(product, qty, setLoading, setError)
               }
               loading={loading}
-              success={success}
               setError={setError}
             />
           </div>
           <ProductDescription product={product} />
         </main>
+      ) : (
+        ""
       )}
     </>
   );

@@ -5,7 +5,6 @@ const ProductQuantity = ({
   setQty,
   handleCartItem,
   loading,
-  success,
   error,
   setError,
 }) => {
@@ -40,19 +39,9 @@ const ProductQuantity = ({
       <button
         onClick={handleCartItem}
         disabled={loading}
-        className={`shadow rounded px-2 py-2 ${
-          success === true
-            ? "bg-green-600 text-green-50"
-            : "bg-blue-600 text-blue-50"
-        }  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
+        className="shadow rounded px-2 py-2 bg-blue-600 text-blue-50 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? (
-          <Spinner type="Adding..." />
-        ) : success ? (
-          "Added"
-        ) : (
-          "Add to cart"
-        )}
+        {loading ? <Spinner type="Adding..." /> : "Add to cart"}
       </button>
     </div>
   );
