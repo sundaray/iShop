@@ -1,11 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { fetchCartItems } from "../utils/firebase.config";
 import { updateCartItem } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 import { deleteCartItem } from "../utils/firebase.config";
 import { cartItemsQtyContext } from "./_app";
 import { TrashIcon } from "@heroicons/react/24/solid";
+
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ const Cart = () => {
   const [error, setError] = useState(false);
   const [totalPrice, setTotalPrice] = useState("");
 
-  const { setCartItemsQty } = useContext(cartItemsQtyContext);
+  const { cartItemsQty, setCartItemsQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
     fetchCartItems(setCartItems);
@@ -37,12 +39,14 @@ const Cart = () => {
     <>
       <main className="w-9/12 mt-32 mb-12 m-auto">
         <div className="flex flex-col items-center space-y-8 mb-12 ">
-          <p className="text-3xl font-medium text-gray-900">
-            {`Your bag total is $${totalPrice}`}
+          <p className="text-4xl font-medium text-gray-900">
+            {cartItemsQty > 0 ? `Your cart total is $${totalPrice}.` : "Your cart is empty."}
           </p>
-          <button className="shadow rounded w-40 py-2 bg-blue-600 text-blue-50 px-2 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-            Check Out
+          <Link href={cartItemsQty > 0 ? "/checkout" : "/"}>
+          <button className={`shadow rounded w-auto py-2 ${cartItemsQty > 0 ? "bg-blue-600 text-blue-50 hover:bg-blue-700" : "bg-gray-100 hover:bg-gray-200"} px-2  hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all`}>
+            {cartItemsQty > 0 ? "Check Out" : "Continue Shopping"}
           </button>
+          </Link>
         </div>
         <div>
           {!cartItems ? (

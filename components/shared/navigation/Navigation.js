@@ -40,7 +40,7 @@ const Navigation = ({ qty }) => {
             iStore
           </h1>
         </Link>
-        <ul className="flex items-center space-x-4 text-sm">
+        <div className="flex items-center space-x-4 text-sm">
           <Link href="/cart">
             <div className="relative flex items-center hover:text-gray-50 transition-all">
               <ShoppingCartIcon className="inline w-6 h-6 mr-1" />
@@ -63,21 +63,21 @@ const Navigation = ({ qty }) => {
           </Link>
           {!user ? (
             <Link href="/users/sign-in">
-              <li className="hover:text-gray-50 transition-all">
+              <div className="hover:text-gray-50 transition-all">
                 <UserCircleIcon className="inline w-6 h-6 mr-1" />
                 Sign in
-              </li>
+              </div>
             </Link>
           ) : (
-            <li
+            <div
               onClick={handleSignOut}
               className="cursor-pointer hover:text-gray-50 transition-all"
             >
               <UserCircleIcon className="inline w-6 h-6 mr-1" />
               Sign out
-            </li>
+            </div>
           )}
-        </ul>
+        </div>
       </nav>
     </>
   );
