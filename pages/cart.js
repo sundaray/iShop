@@ -20,7 +20,6 @@ const Cart = () => {
   useEffect(() => {
     fetchCartItems(setCartItems);
     if (cartItems) {
-      //calculate the total price of all items in the cart
       const totalPrice = cartItems.reduce((acc, item) => {
         return acc + item.price * item.qty;
       }, 0);
@@ -78,7 +77,10 @@ const Cart = () => {
                   ))}
                 </select>
                 <p>${price}</p>
-                <TrashIcon className="h-5 w-5 text-gray-500" />
+                <TrashIcon
+                  onClick={() => handleDeleteCartItem(id)}
+                  className="cursor-pointer h-5 w-5 text-gray-500 hover:text-gray-600 transition-all"
+                />
               </div>
             ))
           )}
