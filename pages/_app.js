@@ -6,7 +6,7 @@ import { fetchCartItemsQty } from "../utils/firebase.config";
 
 export const cartItemsQtyContext = createContext();
 
-const protectedRoutes = ["/admin/product-upload"];
+const protectedRoutes = ["/admin/product-upload", "/cart"];
 
 export default function App({ Component, pageProps }) {
   const [cartItemsQty, setCartItemsQty] = useState(null);
