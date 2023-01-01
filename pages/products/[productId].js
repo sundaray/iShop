@@ -13,7 +13,6 @@ import PageError from "../../components/shared/error/PageError";
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
@@ -31,7 +30,8 @@ const Product = () => {
 
   const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
-      addToCart(router, product, qty, setLoading, setError);
+      const userId = user.uid;
+      addToCart(router, userId, product, qty, setLoading, setError);
       setCartItemsQty(qty);
     }
     if (!user) {

@@ -94,13 +94,14 @@ export const fetchProduct = async (
 };
 
 // Add item to cart
-export const addToCart = async (router, product, qty, setLoading, setError) => {
+export const addToCart = async (router, userId, product, qty, setLoading, setError) => {
   const { name, description, price, stockCount, imgUrls } = product;
   try {
     setLoading(true);
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
       id: newCartItemRef.id,
+      userId,
       name,
       description,
       price,
