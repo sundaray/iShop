@@ -12,12 +12,20 @@ const Cart = () => {
   const [itemQty, setItemQty] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const [error, setError] = useState(false);
+  const [totalPrice, setTotalPrice] = useState("");
 
   const { setCartItemsQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
     fetchCartItems(setCartItems);
-  }, [itemQty]);
+    if (cartItems) {
+      //calculate the total price of all items in the cart
+      const totalPrice = cartItems.reduce((acc, item) => {
+        return acc + item.price * item.qty;
+      }, 0);
+      setTotalPrice(totalPrice.toFixed(2));
+    }
+  }, [itemQty, cartItems]);
 
   const handleDeleteCartItem = (id) => {
     deleteCartItem(id);
@@ -30,7 +38,7 @@ const Cart = () => {
       <main className="w-9/12 mt-32 mb-12 m-auto">
         <div className="flex flex-col items-center space-y-8 mb-12 ">
           <p className="text-3xl font-medium text-gray-900">
-            Your bag total is{" "}
+            {`Your bag total is $${totalPrice}`}
           </p>
           <button className="shadow rounded w-40 py-2 bg-blue-600 text-blue-50 px-2 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
             Check Out
@@ -68,7 +76,6 @@ const Cart = () => {
                     </option>
                   ))}
                 </select>
-
                 <p>${price}</p>
                 <div>
                   <svg
