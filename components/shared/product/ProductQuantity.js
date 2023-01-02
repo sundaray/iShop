@@ -9,7 +9,7 @@ const ProductQuantity = ({
   setError,
 }) => {
   return (
-    <div className="product-quantity flex flex-col justify-between">
+    <div className="product-quantity flex flex-col justify-between space-y-4">
       <div className="flex justify-between items-center">
         <p>Price:</p>
         <p>${price}</p>

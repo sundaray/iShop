@@ -207,15 +207,25 @@
 .product-page-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto, 1fr;
+  grid-template-rows: auto, auto, repeat(5, 1fr);
 }
 
-.product-quantity {
-  grid-column: 8 / 11;
+.product-name {
+  grid-column: 3 / -1;
   grid-row: 1 / 2;
 }
 
+.product-image-gallery {
+  grid-column: 3 / 7;
+  grid-row: 2 / 6;
+}
+
+.product-quantity {
+  grid-column: 9 / 11;
+  grid-row: 3 / 5;
+}
+
 .product-description {
-  grid-column: 2 / 12;
-  grid-row: 2 / 3;
+  grid-column: 3 / 11;
+  grid-row: 6 / 7;
 }
