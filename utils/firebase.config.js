@@ -144,13 +144,20 @@ export const fetchCartItems = async (setCartItems, userId) => {
 };
 
 // Fetch cartItems quantity
-export const fetchCartItemsQty = async (setCartItemsQty) => {
-  const cartItems = [];
-  const firestoreQuery = query(collection(db, "cartItems"));
-  const querySnapshot = await getDocs(firestoreQuery);
-  querySnapshot.forEach((doc) => cartItems.push(Number(doc.data().qty)));
-  const cartItemsQty = cartItems.reduce((x, y) => x + y, 0);
-  setCartItemsQty(cartItemsQty);
+export const fetchCartItemsQty = async (setCartItemsQty, userId) => {
+  if (userId) {
+    const cartItems = [];
+    const firestoreQuery = query(
+      collection(db, "cartItems"),
+      where("userId", "==", userId)
+    );
+    const querySnapshot = await getDocs(firestoreQuery);
+    querySnapshot.forEach((doc) => cartItems.push(Number(doc.data().qty)));
+    const cartItemsQty = cartItems.reduce((x, y) => x + y, 0);
+    setCartItemsQty(cartItemsQty);
+  } else {
+    setCartItemsQty(0);
+  }
 };
 
 // Update cart item
