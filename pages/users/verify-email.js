@@ -14,7 +14,7 @@ const VerifyEmail = () => {
         </p>
         <p className="mb-4">
           If you do not receive the link in your inbox, it is possible that it
-          ended up in your spam folder. So be sure to check there as
+          ended up in your spam folder. So make sure to check there as
           well.
         </p>
         <Link href="/users/sign-in">
