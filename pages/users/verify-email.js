@@ -13,7 +13,7 @@ const VerifyEmail = () => {
           on the link to verify your email.
         </p>
         <p className="mb-4">
-          If you don't receive the link in your inbox, it's possible that it
+          If you do not receive the link in your inbox, it is possible that it
           ended up in your spam folder. So be sure to check there as
           well.
         </p>
