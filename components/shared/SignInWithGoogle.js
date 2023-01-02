@@ -18,7 +18,7 @@ const SignInWithGoogle = () => {
 
   return (
     <div
-      className="w-fit rounded shadow bg-white hover:shadow-md m-auto flex items-center justify-between cursor-pointer"
+      className="w-full rounded shadow bg-white hover:shadow-md m-auto flex items-center justify-center cursor-pointer"
       onClick={logGoogleUser}
     >
       <Image src={googleLogo} alt="Google logo" className="w-10 h-10" />
