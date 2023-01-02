@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 
 const ProductImageGallery = ({ product: { imgUrls } }) => {
   return (
-    <div className="border rounded-xl md:w-2/5">
+    <div className="border rounded-xl w-full md:w-2/5">
       <Swiper
         modules={[Navigation, Pagination, A11y]}
         slidesPerView={1}

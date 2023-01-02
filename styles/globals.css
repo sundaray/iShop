@@ -204,3 +204,18 @@
   scale: 0.6;
 }
 
+.product-page-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto, 1fr;
+}
+
+.product-quantity {
+  grid-column: 8 / 11;
+  grid-row: 1 / 2;
+}
+
+.product-description {
+  grid-column: 2 / 12;
+  grid-row: 2 / 3;
+}

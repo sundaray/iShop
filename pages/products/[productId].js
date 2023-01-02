@@ -50,22 +50,20 @@ const Product = () => {
       ) : error ? (
         <PageError error={error} setError={setError} />
       ) : product ? (
-        <main className="w-full mt-32 m-auto flex flex-col">
-          <h1 className="text-4xl text-gray-900 font-bold ml-52 mb-4">
+        <main className="product-page-container w-full mt-24 m-auto border border-red-400">
+          <h1 className="text-4xl text-gray-900 text-center font-bold">
             AirPods Pro
           </h1>
-          <div className="flex justify-center items-center space-x-24 mb-12">
-            <ProductImageGallery product={product} />
-            <ProductQuantity
-              product={product}
-              setQty={setQty}
-              handleCartItem={() =>
-                handleAddToCart(product, qty, setLoading, setError)
-              }
-              loading={loading}
-              setError={setError}
-            />
-          </div>
+          {/* <ProductImageGallery product={product} /> */}
+          <ProductQuantity
+            product={product}
+            setQty={setQty}
+            handleCartItem={() =>
+              handleAddToCart(product, qty, setLoading, setError)
+            }
+            loading={loading}
+            setError={setError}
+          />
           <ProductDescription product={product} />
         </main>
       ) : (
