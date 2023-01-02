@@ -84,7 +84,7 @@ const Cart = () => {
                     onChange={(event) => {
                       setItemQty(event.target.value);
                       const updatedQty = event.target.value;
-                      updateCartItem(id, updatedQty);
+                      updateCartItem(id, updatedQty, user.uid);
                       setCartItemsQty(updatedQty);
                     }}
                   >
