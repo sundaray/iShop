@@ -22,7 +22,7 @@ const ProductImageGallery = ({ product: { imgUrls } }) => {
                 background: `url(${image}) center no-repeat`,
                 backgroundSize: "contain",
               }}
-              className="h-80"
+              className="w-full h-60 md:h-80"
             ></div>
           </SwiperSlide>
         ))}
