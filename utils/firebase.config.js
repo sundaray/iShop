@@ -173,7 +173,11 @@ export const updateCartItem = async (productId, qty, userId) => {
 };
 
 // Delete cart item
-export const deleteCartItem = async (id) => {
+export const deleteCartItem = async (id, userId) => {
   const cartItemRef = doc(db, "cartItems", id);
-  await deleteDoc(cartItemRef);
+  const cartItemSnap = await getDoc(cartItemRef);
+
+  if (cartItemSnap.exists() && cartItemSnap.data().userId === userId) {
+    await deleteDoc(cartItemRef);
+  }
 };

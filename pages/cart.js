@@ -33,7 +33,7 @@ const Cart = () => {
   }, [itemQty, cartItems, user.uid]);
 
   const handleDeleteCartItem = (id) => {
-    deleteCartItem(id);
+    deleteCartItem(id, user.uid);
     fetchCartItems(setCartItems, user.uid);
     setCartItemsQty(itemQty);
   };
