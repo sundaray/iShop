@@ -13,6 +13,7 @@ import {
   updateDoc,
   deleteDoc,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -26,6 +27,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
+("");
 export const db = getFirestore();
 export const storage = getStorage();
 
@@ -94,7 +96,14 @@ export const fetchProduct = async (
 };
 
 // Add item to cart
-export const addToCart = async (router, userId, product, qty, setLoading, setError) => {
+export const addToCart = async (
+  router,
+  userId,
+  product,
+  qty,
+  setLoading,
+  setError
+) => {
   const { name, description, price, stockCount, imgUrls } = product;
   try {
     setLoading(true);
@@ -119,9 +128,12 @@ export const addToCart = async (router, userId, product, qty, setLoading, setErr
 };
 
 // Fetch cartItems
-export const fetchCartItems = async (setCartItems) => {
+export const fetchCartItems = async (setCartItems, userId) => {
   const cartItems = [];
-  const firestoreQuery = query(collection(db, "cartItems"));
+  const firestoreQuery = query(
+    collection(db, "cartItems"),
+    where("userId", "==", userId)
+  );
   const querySnapshot = await getDocs(firestoreQuery);
   querySnapshot.forEach((doc) =>
     cartItems.push({
@@ -130,6 +142,7 @@ export const fetchCartItems = async (setCartItems) => {
   );
   setCartItems(cartItems);
 };
+
 // Fetch cartItems quantity
 export const fetchCartItemsQty = async (setCartItemsQty) => {
   const cartItems = [];
