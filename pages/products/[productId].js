@@ -50,8 +50,11 @@ const Product = () => {
       ) : error ? (
         <PageError error={error} setError={setError} />
       ) : product ? (
-        <main className="w-11/12 mt-32 mb-12 m-auto flex flex-col space-y-16">
-          <div className="flex justify-center items-center space-x-24 ">
+        <main className="w-full mt-32 m-auto flex flex-col">
+          <h1 className="text-4xl text-gray-900 font-bold ml-52 mb-4">
+            AirPods Pro
+          </h1>
+          <div className="flex justify-center items-center space-x-24 mb-12">
             <ProductImageGallery product={product} />
             <ProductQuantity
               product={product}

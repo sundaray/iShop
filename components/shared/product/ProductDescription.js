@@ -1,10 +1,8 @@
-const ProductDescription = ({product: {name, description}}) => {
+const ProductDescription = ({ product: { description } }) => {
   return (
-        <div className="py-1 w-1/2 space-y-4">
-          <p className="font-medium">{name}</p>
-          <hr></hr>
-          <p>{description}</p>
-        </div>
+    <div className="rounded-xl w-3/4 px-12 py-6 bg-gray-100 m-auto">
+      <p className="text-2xl font-medium">{description}</p>
+    </div>
   );
 };
 

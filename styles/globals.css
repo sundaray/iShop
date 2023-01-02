@@ -200,14 +200,7 @@
 /***********************/
 /***********************/
 
-
-
-
 .swiper-button-next, .swiper-button-prev {
   scale: 0.6;
 }
 
-.goback:hover > svg {
-  transition: transform 0.2s ease-out;
-  transform: translateX(-0.15rem);
-}

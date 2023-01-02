@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const ProductImageGallery = ({ product: {imgUrls} }) => {
+const ProductImageGallery = ({ product: { imgUrls } }) => {
   return (
     <div className="border rounded-xl md:w-2/5">
       <Swiper
