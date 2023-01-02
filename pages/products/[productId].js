@@ -51,7 +51,7 @@ const Product = () => {
         <PageError error={error} setError={setError} />
       ) : product ? (
         <main className="product-page-container w-full mt-24 m-auto">
-          <h1 className="product-name text-xl md:text-4xl text-gray-900 font-bold mb-4">
+          <h1 className="product-name text-xl md:text-3xl lg:text-4xl text-gray-900 font-bold mb-4">
             AirPods Pro
           </h1>
           <ProductImageGallery product={product} />

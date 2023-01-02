@@ -230,6 +230,31 @@
   grid-row: 6 / 7;
 }
 
+@media (max-width: 820px) {
+
+  .product-name {
+    grid-column: 3 / -1;
+    grid-row: 1 / 2;
+  }
+  
+  .product-image-gallery {
+    grid-column: 3 / 11;
+    grid-row: 2 / 5;
+  }
+  
+  .product-quantity {
+    grid-column: 4 / 10;
+    grid-row: 5 / 6;
+    margin-bottom: 48px;
+  }
+  
+  .product-description {
+    grid-column: 2 / 12;
+    grid-row: 6 / 7;
+  }  
+}
+
+
 @media (max-width: 640px) {
 
   .product-name {
