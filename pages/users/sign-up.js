@@ -92,7 +92,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="shadow rounded w-full py-2 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="shadow rounded w-full bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Spinner type="Signing... up" /> : "Sign up"}
               </button>

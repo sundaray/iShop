@@ -52,10 +52,10 @@ const Cart = () => {
             </p>
             <Link href={cartItemsQty > 0 ? "/checkout" : "/"}>
               <button
-                className={`shadow rounded w-42 py-2 ${
+                className={`border rounded w-42 px-2 py-1 ${
                   cartItemsQty > 0
                     ? "bg-blue-600 text-blue-50 hover:bg-blue-700"
-                    : "bg-gray-100 hover:bg-gray-200"
+                    : "bg-gray-100 hover:border-gray-400"
                 } px-2  hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
               >
                 {cartItemsQty > 0 ? "Check out" : "Continue shopping"}

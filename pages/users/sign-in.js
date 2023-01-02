@@ -87,7 +87,7 @@ const SignIn = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 shadow rounded mb-6 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full shadow rounded mb-6 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? <Spinner type="Signing... in" /> : "Sign in"}
             </button>
