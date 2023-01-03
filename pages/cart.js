@@ -40,18 +40,22 @@ const Cart = () => {
   };
 
   const redirectToCheckout = async () => {
+    const lineItems = cartItems.map(({ name, price, qty }) => ({
+      price_data: {
+        currency: "usd",
+        product_data: { name },
+        unit_amount: price * 100,
+      },
+      quantity: qty,
+    }));
     const {
       data: { id: sessionId },
     } = await axios.post("/api/checkout-session", {
-      price: totalPrice,
-      quantity: cartItemsQty,
+      lineItems,
     });
 
-    console.log(sessionId)
-    
     const stripe = await getStripe();
     await stripe.redirectToCheckout({ sessionId });
-
   };
 
   return (
@@ -69,11 +73,11 @@ const Cart = () => {
                 : "Your cart is empty"}
             </p>
             <button
-              className={`border rounded w-42 px-2 py-1 ${
+              className={`border rounded w-44 px-2 py-1 ${
                 cartItemsQty > 0
                   ? "bg-blue-600 text-blue-50 hover:bg-blue-700"
                   : "bg-gray-100 hover:border-gray-400"
-              } px-2  hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
+              } hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
               onClick={redirectToCheckout}
             >
               {cartItemsQty > 0 ? "Check out" : "Continue shopping"}
