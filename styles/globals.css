@@ -223,6 +223,7 @@
 .product-quantity {
   grid-column: 8 / 10;
   grid-row: 3 / 5;
+  margin-bottom: 3rem;
 }
 
 .product-description {
