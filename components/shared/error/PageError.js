@@ -30,7 +30,7 @@ const PageError = ({ error, setError }) => {
           initial="initial"
           animate="animate"
           exit="initial"
-          className="z-20 absolute top-24 m-auto right-0 left-0 flex justify-between items-center bg-red-200 w-11/12  md:w-3/5 xl:w-1/5 h-10 mb-4 rounded px-4 py-2"
+          className="z-20 absolute top-24 m-auto right-0 left-0 flex justify-between items-center bg-red-200 w-4/5 md:w-1/2 xl:w-1/5 h-10 mb-4 rounded px-4 py-2"
         >
           <p className="text-center text-red-600">{error}</p>
           <XCircleIcon
