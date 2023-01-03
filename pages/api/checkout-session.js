@@ -3,7 +3,6 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  console.log(req.body);
   const { price, quantity } = req.body;
   if (req.method === "POST") {
     try {
@@ -13,6 +12,7 @@ export default async function handler(req, res) {
           {
             price_data: {
               currency: "inr",
+              product_data: { name: "iStore products" },
               unit_amount: price,
             },
             quantity,
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         cancel_url: `${req.headers.origin}/cart`,
       });
 
-      res.status(200).json(id);
+      res.status(200).json({ id });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

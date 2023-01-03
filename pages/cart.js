@@ -24,7 +24,7 @@ const Cart = () => {
   const { cartItemsQty, setCartItemsQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
-    fetchCartItems(setCartItems, setLoading, setError, user.uid);
+    fetchCartItems(setCartItems, user.uid);
     if (cartItems) {
       const totalPrice = cartItems.reduce((acc, item) => {
         return acc + item.price * item.qty;
@@ -47,8 +47,11 @@ const Cart = () => {
       quantity: cartItemsQty,
     });
 
+    console.log(sessionId)
+    
     const stripe = await getStripe();
     await stripe.redirectToCheckout({ sessionId });
+
   };
 
   return (

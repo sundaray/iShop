@@ -62,7 +62,7 @@ export const fetchProducts = async (setProducts, setLoading, setError) => {
     );
     setProducts(products);
     setLoading(false);
-  } catch (error) { 
+  } catch (error) {
     setLoading(false);
     if (error.code === "unavailable") {
       setError("No internet connection");
@@ -130,33 +130,19 @@ export const addToCart = async (
 };
 
 // Fetch cartItems
-export const fetchCartItems = async (setCartItems, setLoading, setError, userId) => {
-
-  try {
-    setLoading(true);
-    const cartItems = [];
-    const firestoreQuery = query(
-      collection(db, "cartItems"),
-      where("userId", "==", userId)
-    );
-    const querySnapshot = await getDocs(firestoreQuery);
-    querySnapshot.forEach((doc) =>
-      cartItems.push({
-        ...doc.data(),
-      })
-    );
-    setCartItems(cartItems);
-    setLoading(false);
-  } catch (error) { 
-    setLoading(false);
-    if (error.code === "unavailable") {
-      setError("No internet connection");
-    } else if (error.code === "quota-exceeded") {
-      setError("Quota exceeded");
-    } else {
-      setError("Error fetching cart items");
-    }
-  }
+export const fetchCartItems = async (setCartItems, userId) => {
+  const cartItems = [];
+  const firestoreQuery = query(
+    collection(db, "cartItems"),
+    where("userId", "==", userId)
+  );
+  const querySnapshot = await getDocs(firestoreQuery);
+  querySnapshot.forEach((doc) =>
+    cartItems.push({
+      ...doc.data(),
+    })
+  );
+  setCartItems(cartItems);
 };
 
 // Fetch cartItems quantity
