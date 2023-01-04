@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { your } from "./../../.next/static/chunks/amp";
 
 const VerifyEmail = () => {
   return (
