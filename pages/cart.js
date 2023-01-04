@@ -42,7 +42,7 @@ const Cart = () => {
   const redirectToCheckout = async () => {
     const lineItems = cartItems.map(({ name, price, qty }) => ({
       price_data: {
-        currency: "usd",
+        currency: "inr",
         product_data: { name },
         unit_amount: price * 100,
       },

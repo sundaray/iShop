@@ -3,9 +3,10 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
+  const { session_id } = req.query;
 
-    const {session_id} = req.query;
-    
+  console.log(session_id);
+
   if (req.method === "GET") {
     try {
       const { name } = await stripe.customers.retrieve(session_id);
