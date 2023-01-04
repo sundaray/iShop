@@ -16,8 +16,10 @@ const Success = () => {
         const {
           data: { session },
         } = await axios.get(`/api/${router.query.session_id}`);
-        const customerName = session.customer_details.name;
-        setCustomerName(customerName);
+        if (session) {
+          const customerName = session.customer_details.name;
+          setCustomerName(customerName);
+        }
       }
     };
     fetchCheckoutSession();
@@ -26,9 +28,9 @@ const Success = () => {
   return (
     <>
       {customerName && (
-        <div className="w-1/2 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 border rounded bg-gray-100">
+        <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 border rounded bg-gray-100">
           <CheckIcon className="w-6 h-6 text-green-600" />
-          <h1 className="text-2xl">Thanks for the order {customerName}!</h1>
+          <h1 className="text-lg">Thanks for the order {customerName}!</h1>
         </div>
       )}
 
