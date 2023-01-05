@@ -14,6 +14,7 @@ import {
   deleteDoc,
   serverTimestamp,
   where,
+  writeBatch,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -143,6 +144,20 @@ export const fetchCartItems = async (setCartItems, userId) => {
     })
   );
   setCartItems(cartItems);
+};
+
+// Clear cartItems
+export const clearCartItems = async (userId) => {
+  const batch = writeBatch(db);
+
+  const cartItemsQuery = query(
+    collection(db, "cartItems"),
+    where("userId", "==", userId)
+  );
+  const cartItemsQuerySnapshot = await getDocs(cartItemsQuery);
+  cartItemsQuerySnapshot.forEach((doc) => batch.delete(doc.ref));
+
+  batch.commit();
 };
 
 // Fetch cartItems quantity
