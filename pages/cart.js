@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import getStripe from "../utils/get-stripe";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { cartItemsQtyContext } from "./_app";
@@ -72,16 +73,25 @@ const Cart = () => {
                 ? `Your cart total is $${totalPrice}.`
                 : "Your cart is empty"}
             </p>
-            <button
-              className={`border rounded w-44 px-2 py-1 ${
-                cartItemsQty > 0
-                  ? "bg-blue-600 text-blue-50 hover:bg-blue-700"
-                  : "bg-gray-100 hover:border-gray-400"
-              } hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
-              onClick={redirectToCheckout}
-            >
-              {cartItemsQty > 0 ? "Check out" : "Continue shopping"}
-            </button>
+            {cartItemsQty > 0 ? (
+              <button
+                className="border rounded w-44 px-2 py-1
+                    bg-blue-600 text-blue-50 hover:bg-blue-700
+                } hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                onClick={redirectToCheckout}
+              >
+                Check out
+              </button>
+            ) : (
+              <Link href="/">
+                <button
+                  className="border rounded w-44 px-2 py-1 bg-gray-100 hover:border-gray-400
+                  hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Continue shopping
+                </button>
+              </Link>
+            )}
           </div>
           <div>
             {!cartItems ? (
