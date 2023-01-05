@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import PageSpinner from "../components/shared/PageSpinner";
 
 const Success = () => {
   const [customerName, setCustomerName] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -20,6 +22,7 @@ const Success = () => {
           const customerName = session.customer_details.name;
           setCustomerName(customerName);
         }
+        setLoading(false);
       }
     };
     fetchCheckoutSession();
@@ -27,14 +30,14 @@ const Success = () => {
 
   return (
     <>
-      {customerName && (
+      {loading ? (
+        <PageSpinner />
+      ) : customerName ? (
         <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 border rounded bg-gray-100">
           <CheckIcon className="w-6 h-6 text-green-600" />
           <h1 className="text-lg">Thanks for the order {customerName}!</h1>
         </div>
-      )}
-
-      {!customerName && (
+      ) : (
         <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 rounded bg-red-200">
           <ExclamationTriangleIcon className="w-7 h-7 text-red-600" />
           <h1 className="text-lg text-red-600 text-center">
