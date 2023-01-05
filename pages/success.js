@@ -5,9 +5,10 @@ import { cartItemsQtyContext } from "./_app";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import PageSpinner from "../components/shared/PageSpinner";
-import { clearCartItems } from "../utils/firebase.config";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase.config";
+import { clearCartItems } from "../utils/firebase.config";
+import { createOrderItems } from "../utils/firebase.config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Success = () => {
   const [customerName, setCustomerName] = useState(null);
@@ -27,6 +28,7 @@ const Success = () => {
         if (session) {
           const customerName = session.customer_details.name;
           setCustomerName(customerName);
+          createOrderItems(user?.uid);
           clearCartItems(user?.uid);
           setCartItemsQty(null);
         }
@@ -34,7 +36,7 @@ const Success = () => {
       }
     };
     fetchCheckoutSession();
-  }, [router.query.session_id, user]);
+  }, [router.query.session_id, user, setCartItemsQty]);
 
   return (
     <>

@@ -107,13 +107,14 @@ export const addToCart = async (
   setLoading,
   setError
 ) => {
-  const { name, description, price, stockCount, imgUrls } = product;
+  const { id, name, description, price, stockCount, imgUrls } = product;
   try {
     setLoading(true);
     const newCartItemRef = doc(collection(db, "cartItems"));
     await setDoc(newCartItemRef, {
       id: newCartItemRef.id,
       userId,
+      productId: id,
       name,
       description,
       price,
@@ -197,4 +198,27 @@ export const deleteCartItem = async (id, userId) => {
   if (cartItemSnap.exists() && cartItemSnap.data().userId === userId) {
     await deleteDoc(cartItemRef);
   }
+};
+
+// Create order items for a user
+
+export const createOrderItems = async (userId) => {
+  const productIds = [];
+  const cartItemsQuery = query(
+    collection(db, "cartItems"),
+    where("userId", "==", userId)
+  );
+  const cartItemsSnapshot = await getDocs(cartItemsQuery);
+  cartItemsSnapshot.forEach((doc) =>
+    productIds.push({
+      productId: doc.data().productId,
+    })
+  );
+  const newOrderItemRef = doc(collection(db, "orderItems"));
+  await setDoc(newOrderItemRef, {
+    id: newOrderItemRef.id,
+    productIds,
+    userId,
+    timestamp: serverTimestamp(),
+  });
 };
