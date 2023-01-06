@@ -37,7 +37,9 @@ const Home = () => {
                   priority
                 />
                 <Link href={`/products/${product.id}`}>
-                  <h1 className="font-medium mb-4">{product.name}</h1>
+                  <h1 className="font-medium mb-4 hover:underline transition-all">
+                    {product.name}
+                  </h1>
                 </Link>
                 <h2 className="font-medium">${product.price}</h2>
               </div>

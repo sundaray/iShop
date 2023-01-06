@@ -209,11 +209,7 @@ export const createOrderItems = async (userId) => {
     where("userId", "==", userId)
   );
   const cartItemsSnapshot = await getDocs(cartItemsQuery);
-  cartItemsSnapshot.forEach((doc) =>
-    productIds.push({
-      productId: doc.data().productId,
-    })
-  );
+  cartItemsSnapshot.forEach((doc) => productIds.push(doc.data().productId));
   const newOrderItemRef = doc(collection(db, "orderItems"));
   await setDoc(newOrderItemRef, {
     id: newOrderItemRef.id,
@@ -221,4 +217,18 @@ export const createOrderItems = async (userId) => {
     userId,
     timestamp: serverTimestamp(),
   });
+};
+
+// Find out whether customer reviews exist for a product
+
+export const fetchReviewStatus = async (productId, userId, setReviewExists) => {
+  const orderItemsQuery = query(
+    collection(db, "orderItems"),
+    where("productIds", "array-contains", productId),
+    where("userId", "==", userId)
+  );
+  const orderItemsSnapshot = await getDocs(orderItemsQuery);
+  if (orderItemsSnapshot.size > 0) {
+    setReviewExists(true);
+  }
 };

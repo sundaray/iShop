@@ -24,11 +24,11 @@ const Navigation = ({ qty }) => {
   const [user] = useAuthState(auth);
 
   const router = useRouter();
-  
+
   const { cartItemsQty } = useContext(cartItemsQtyContext);
-  
+
   const handleSignOut = () => {
-    signOut(auth).then(() => router.replace("/"))
+    signOut(auth).then(() => router.push("/"));
   };
 
   return (

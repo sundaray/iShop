@@ -5,9 +5,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase.config";
 import { addToCart } from "../../utils/firebase.config";
 import { fetchProduct } from "../../utils/firebase.config";
+import { fetchReviewStatus } from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from "./../../components/shared/product/ProductQuantity";
+import ProductReviewForm from "../../components/shared/product/ProductReviewForm";
 import PageSpinner from "../../components/shared/PageSpinner";
 import PageError from "../../components/shared/error/PageError";
 
@@ -16,6 +18,9 @@ const Product = () => {
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
+  const [reviewExists, setReviewExists] = useState(false);
+
+  console.log(reviewExists);
 
   const { setCartItemsQty } = useContext(cartItemsQtyContext);
 
@@ -26,7 +31,10 @@ const Product = () => {
   useEffect(() => {
     const productId = window.location.pathname.split("/")[2];
     fetchProduct(setLoading, setError, setProduct, productId);
-  }, []);
+    if (user) {
+      fetchReviewStatus(productId, user.uid, setReviewExists);
+    }
+  }, [reviewExists, user]);
 
   const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
@@ -65,6 +73,7 @@ const Product = () => {
             setError={setError}
           />
           <ProductDescription product={product} />
+          {reviewExists && <ProductReviewForm />}
         </main>
       ) : (
         ""
