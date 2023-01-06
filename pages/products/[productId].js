@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { cartItemsQtyContext } from "../_app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase.config";
@@ -19,8 +20,7 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [reviewExists, setReviewExists] = useState(false);
-
-  console.log(reviewExists);
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const { setCartItemsQty } = useContext(cartItemsQtyContext);
 
@@ -28,13 +28,14 @@ const Product = () => {
 
   const router = useRouter();
 
+  const productId = typeof window !== "undefined" ? window.location.pathname.split("/")[2] : null;
+
   useEffect(() => {
-    const productId = window.location.pathname.split("/")[2];
     fetchProduct(setLoading, setError, setProduct, productId);
     if (user) {
       fetchReviewStatus(productId, user.uid, setReviewExists);
     }
-  }, [reviewExists, user]);
+  }, [reviewExists, user, productId]);
 
   const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
@@ -73,7 +74,18 @@ const Product = () => {
             setError={setError}
           />
           <ProductDescription product={product} />
-          {reviewExists && <ProductReviewForm />}
+          {reviewExists && (
+            <div className="write-review bg-gray-900 text-gray-50 rounded w-40 px-2 py-2 mb-6 flex justify-between items-center">
+              <h1 className="text-gray-50">Write a review</h1>
+              <ChevronDownIcon
+                className="w-4 h-4 cursor-pointer"
+                onClick={() => setShowReviewForm(!showReviewForm)}
+              />
+            </div>
+          )}
+          {reviewExists && showReviewForm && (
+            <ProductReviewForm userId={user?.uid} productId={productId} />
+          )}
         </main>
       ) : (
         ""
