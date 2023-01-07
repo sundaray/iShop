@@ -60,11 +60,13 @@ const Product = () => {
     }
   };
 
+  if (!product && !loading && !error && !reviews && !boughtByUser) {
+    return <PageSpinner />;
+  }
+
   return (
     <>
-      {loading ? (
-        <PageSpinner />
-      ) : error ? (
+      {error ? (
         <PageError error={error} setError={setError} />
       ) : product ? (
         <main className="product-page-container w-full mt-24 m-auto">
@@ -94,7 +96,9 @@ const Product = () => {
           {showReviewForm && (
             <ProductReviewForm userId={user?.uid} productId={productId} />
           )}
-          {noOfReviews > 0 && reviews && <ProductReviews reviews={reviews} noOfReviews={noOfReviews}/>}
+          {noOfReviews > 0 && reviews && (
+            <ProductReviews reviews={reviews} noOfReviews={noOfReviews} />
+          )}
         </main>
       ) : (
         ""
