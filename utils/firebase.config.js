@@ -15,6 +15,7 @@ import {
   serverTimestamp,
   where,
   writeBatch,
+  getCountFromServer,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -246,11 +247,16 @@ export const addReview = async (productId, userId, rating, review) => {
 };
 
 // Fetch reviews for a product
-export const fetchProductReviews = async (productId, setReviews, setNoOfReviews) => {
+export const fetchProductReviews = async (
+  productId,
+  setReviews,
+  setNoOfReviews
+) => {
   const reviews = [];
   const reviewsRef = collection(db, "products", productId, "reviews");
   const reviewsSnapshot = await getDocs(reviewsRef);
-  const noOfReviews = reviewsSnapshot.data().count;
+  const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
+  const noOfReviews = reviewsSnapshot2.data().count;
   reviewsSnapshot.forEach((doc) =>
     reviews.push({
       ...doc.data(),

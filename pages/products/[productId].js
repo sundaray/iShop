@@ -7,6 +7,7 @@ import { auth } from "../../utils/firebase.config";
 import { addToCart } from "../../utils/firebase.config";
 import { fetchProduct } from "../../utils/firebase.config";
 import { fetchReviewStatus } from "../../utils/firebase.config";
+import { fetchProductReviews } from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from "./../../components/shared/product/ProductQuantity";
@@ -40,6 +41,7 @@ const Product = () => {
     fetchProduct(setLoading, setError, setProduct, productId);
     if (user) {
       fetchReviewStatus(productId, user.uid, setBoughtByUser);
+      fetchProductReviews(productId, setReviews, setNoOfReviews);
     }
   }, [boughtByUser, user, productId]);
 
@@ -92,7 +94,7 @@ const Product = () => {
           {showReviewForm && (
             <ProductReviewForm userId={user?.uid} productId={productId} />
           )}
-          <ProductReviews />
+          {noOfReviews > 0 && reviews && <ProductReviews reviews={reviews} />}
         </main>
       ) : (
         ""
