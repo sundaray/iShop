@@ -221,7 +221,7 @@ export const createOrderItems = async (userId) => {
 
 // Find out whether customer reviews exist for a product
 
-export const fetchReviewStatus = async (productId, userId, setReviewExists) => {
+export const fetchReviewStatus = async (productId, userId, setBoughtByUser) => {
   const orderItemsQuery = query(
     collection(db, "orderItems"),
     where("productIds", "array-contains", productId),
@@ -229,7 +229,7 @@ export const fetchReviewStatus = async (productId, userId, setReviewExists) => {
   );
   const orderItemsSnapshot = await getDocs(orderItemsQuery);
   if (orderItemsSnapshot.size > 0) {
-    setReviewExists(true);
+    setBoughtByUser(true);
   }
 };
 

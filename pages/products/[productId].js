@@ -11,6 +11,7 @@ import ProductImageGallery from "../../components/shared/product/ProductImageGal
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from "./../../components/shared/product/ProductQuantity";
 import ProductReviewForm from "../../components/shared/product/ProductReviewForm";
+import ProductReviews from "../../components/shared/product/ProductReviews";
 import PageSpinner from "../../components/shared/PageSpinner";
 import PageError from "../../components/shared/error/PageError";
 
@@ -19,7 +20,7 @@ const Product = () => {
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
-  const [reviewExists, setReviewExists] = useState(false);
+  const [boughtByUser, setBoughtByUser] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
   const { setCartItemsQty } = useContext(cartItemsQtyContext);
@@ -28,14 +29,17 @@ const Product = () => {
 
   const router = useRouter();
 
-  const productId = typeof window !== "undefined" ? window.location.pathname.split("/")[2] : null;
+  const productId =
+    typeof window !== "undefined"
+      ? window.location.pathname.split("/")[2]
+      : null;
 
   useEffect(() => {
     fetchProduct(setLoading, setError, setProduct, productId);
     if (user) {
-      fetchReviewStatus(productId, user.uid, setReviewExists);
+      fetchReviewStatus(productId, user.uid, setBoughtByUser);
     }
-  }, [reviewExists, user, productId]);
+  }, [boughtByUser, user, productId]);
 
   const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
@@ -74,7 +78,7 @@ const Product = () => {
             setError={setError}
           />
           <ProductDescription product={product} />
-          {reviewExists && (
+          {boughtByUser && (
             <div className="write-review bg-gray-900 text-gray-50 rounded w-40 px-2 py-2 mb-6 flex justify-between items-center">
               <h1 className="text-gray-50">Write a review</h1>
               <ChevronDownIcon
@@ -83,7 +87,7 @@ const Product = () => {
               />
             </div>
           )}
-          {reviewExists && showReviewForm && (
+          {showReviewForm && (
             <ProductReviewForm userId={user?.uid} productId={productId} />
           )}
         </main>
