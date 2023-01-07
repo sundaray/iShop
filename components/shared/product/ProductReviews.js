@@ -1,5 +1,5 @@
 const ProductReviews = () => {
-  return <div className="text-xl">Reviews</div>;
+  return <div className="product-reviews text-xl">Reviews</div>;
 };
 
 export default ProductReviews;

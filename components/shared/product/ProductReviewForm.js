@@ -63,7 +63,7 @@ const ProductReviewForm = ({ userId, productId }) => {
           initial="initial"
           animate="animate"
           exit="initial"
-          className="product-review mb-12"
+          className="product-review-form mb-12"
         >
           <ErrorFormSubmission error={reviewError} setError={setReviewError} />
           <form

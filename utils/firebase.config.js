@@ -244,3 +244,18 @@ export const addReview = async (productId, userId, rating, review) => {
     review,
   });
 };
+
+// Fetch reviews for a product
+export const fetchProductReviews = async (productId, setReviews, setNoOfReviews) => {
+  const reviews = [];
+  const reviewsRef = collection(db, "products", productId, "reviews");
+  const reviewsSnapshot = await getDocs(reviewsRef);
+  const noOfReviews = reviewsSnapshot.data().count;
+  reviewsSnapshot.forEach((doc) =>
+    reviews.push({
+      ...doc.data(),
+    })
+  );
+  setReviews(reviews);
+  setNoOfReviews(noOfReviews);
+};

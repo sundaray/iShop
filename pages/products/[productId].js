@@ -19,6 +19,8 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState(null);
+  const [noOfReviews, setNoOfReviews] = useState(0);
   const [error, setError] = useState(false);
   const [boughtByUser, setBoughtByUser] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -90,6 +92,7 @@ const Product = () => {
           {showReviewForm && (
             <ProductReviewForm userId={user?.uid} productId={productId} />
           )}
+          <ProductReviews />
         </main>
       ) : (
         ""
