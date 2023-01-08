@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useFormik } from "formik";
 import * as Yup from "yup";
-import FormInputComment from "../FormInputComment";
-import ErrorFormSubmission from "../ErrorFormSubmission";
+import { useFormik } from "formik";
+import { motion, AnimatePresence } from "framer-motion";
 import { addReview } from "../../../utils/firebase.config";
+import ErrorFormSubmission from "../ErrorFormSubmission";
+import FormInput from "../FormInput";
+import FormInputComment from "../FormInputComment";
 
 const formVariant = {
   initial: {
@@ -41,17 +42,21 @@ const ProductReviewForm = ({ userId, productId }) => {
 
   const formik = useFormik({
     initialValues: {
+      name: "",
       rating: "",
       review: "",
     },
     validationSchema: Yup.object({
+      name: Yup.string()
+        .max(20, "Must be less than 20 characters")
+        .required("Name is required"),
       rating: Yup.string()
         .oneOf(["1", "2", "3", "4", "5"])
         .required("Required."),
       review: Yup.string().required("Required."),
     }),
     onSubmit: ({ rating, review }) => {
-      addReview(productId, userId, rating, review);
+      addReview(productId, userId, name, rating, review);
     },
   });
 
@@ -71,6 +76,12 @@ const ProductReviewForm = ({ userId, productId }) => {
             onSubmit={formik.handleSubmit}
           >
             <div className="flex flex-col mb-6 relative">
+              <FormInput
+                formik={formik}
+                label="Name"
+                field="name"
+                type="text"
+              />
               <select
                 className="bg-gray-50 border rounded py-2 px-1 leading-tight focus:outline-none"
                 name="rating"
