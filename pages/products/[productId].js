@@ -94,7 +94,12 @@ const Product = () => {
             </div>
           )}
           {showReviewForm && (
-            <ProductReviewForm userId={user?.uid} productId={productId} />
+            <ProductReviewForm
+              userId={user?.uid}
+              productId={productId}
+              setReviews={setReviews}
+              setNoOfReviews={setNoOfReviews}
+            />
           )}
           {noOfReviews > 0 && reviews && (
             <ProductReviews reviews={reviews} noOfReviews={noOfReviews} />

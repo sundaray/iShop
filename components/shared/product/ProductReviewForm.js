@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
-import { addReview } from "../../../utils/firebase.config";
+import { addReview, fetchProductReviews } from "../../../utils/firebase.config";
 import ErrorFormSubmission from "../ErrorFormSubmission";
 import FormInput from "../FormInput";
 import FormInputComment from "../FormInputComment";
+import Spinner from "../Spinner";
 
 const formVariant = {
   initial: {
@@ -37,8 +38,14 @@ const errorVariant = {
   },
 };
 
-const ProductReviewForm = ({ userId, productId }) => {
-  const [reviewError, setReviewError] = useState(null);
+const ProductReviewForm = ({
+  userId,
+  productId,
+  setReviews,
+  setNoOfReviews,
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -49,14 +56,15 @@ const ProductReviewForm = ({ userId, productId }) => {
     validationSchema: Yup.object({
       name: Yup.string()
         .max(20, "Must be less than 20 characters")
-        .required("Name is required"),
+        .required("Required"),
       rating: Yup.string()
         .oneOf(["1", "2", "3", "4", "5"])
         .required("Required."),
       review: Yup.string().required("Required."),
     }),
-    onSubmit: ({ rating, review }) => {
-      addReview(productId, userId, name, rating, review);
+    onSubmit: ({ name, rating, review }) => {
+      addReview(productId, userId, name, rating, review, setLoading, setError);
+      fetchProductReviews(productId, setReviews, setNoOfReviews);
     },
   });
 
@@ -70,7 +78,7 @@ const ProductReviewForm = ({ userId, productId }) => {
           exit="initial"
           className="product-review-form mb-12"
         >
-          <ErrorFormSubmission error={reviewError} setError={setReviewError} />
+          <ErrorFormSubmission error={error} setError={setError} />
           <form
             className="w-11/12 md:w-3/5 xl:w-2/5 flex flex-col"
             onSubmit={formik.handleSubmit}
@@ -83,7 +91,11 @@ const ProductReviewForm = ({ userId, productId }) => {
                 type="text"
               />
               <select
-                className="bg-gray-50 border rounded py-2 px-1 leading-tight focus:outline-none"
+                className={`bg-gray-50 border rounded ${
+                  formik.touched.rating && formik.errors.rating
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-blue-500"
+                } py-2 px-1 leading-tight focus:outline-none`}
                 name="rating"
                 id="rating"
                 {...formik.getFieldProps("rating")}
@@ -112,10 +124,11 @@ const ProductReviewForm = ({ userId, productId }) => {
             </div>
             <FormInputComment formik={formik} />
             <button
-              className="bg-blue-600 text-blue-50 px-2 py-1 rounded hover:bg-blue-700"
+              disabled={loading}
+              className="bg-blue-600 text-blue-50 px-2 py-1 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
             >
-              Submit
+              {loading ? <Spinner type="Submitting..." /> : "Submit"}
             </button>
           </form>
         </motion.div>
