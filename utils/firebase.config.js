@@ -16,6 +16,7 @@ import {
   where,
   writeBatch,
   getCountFromServer,
+  orderBy,
   Timestamp,
 } from "firebase/firestore";
 
@@ -272,7 +273,12 @@ export const fetchProductReviews = async (
   setUserReviewed
 ) => {
   const reviews = [];
-  const reviewsRef = collection(db, "products", productId, "reviews");
+  // const reviewsRef = collection(db, "products", productId, "reviews");
+  const reviewsRef = query(
+    collection(db, "products", productId, "reviews"),
+    orderBy("reviewDate", "desc")
+  );
+
   const reviewsSnapshot = await getDocs(reviewsRef);
   // const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
   reviewsSnapshot.forEach((doc) =>
@@ -292,17 +298,3 @@ export const fetchProductReviews = async (
     setUserReviewed(true);
   }
 };
-
-// export const fetchProductReviews = async (productId, setProductReviews) => {
-//   const reviews = [];
-//   const reviewsRef = collection(db, "products", productId, "reviews");
-//   const reviewsSnapshot = await getDocs(reviewsRef);
-//   const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
-//   const noOfReviews = reviewsSnapshot2.data().count;
-//   reviewsSnapshot.forEach((doc) =>
-//     reviews.push({
-//       ...doc.data(),
-//     })
-//   );
-//   setProductReviews(reviews);
-// };
