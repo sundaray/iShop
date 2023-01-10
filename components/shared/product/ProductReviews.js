@@ -15,7 +15,7 @@ const ProductReviews = ({ productReviews }) => {
             <FontAwesomeIcon icon={faUser} className="text-gray-600 mr-2" />
             {userName} (
             <span className="text-sm">
-              Reviewd on {reviewDate.toDate().toDateString()}
+              reviewd on {reviewDate.toDate().toDateString()}
             </span>
             )
           </p>

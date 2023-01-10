@@ -1,18 +1,34 @@
+import { useState, useEffect } from "react";
 import Spinner from "../Spinner";
+import ProductRating from "./ProductRating";
+import { fetchAverageRating } from "../../../utils/firebase.config";
 
 const ProductQuantity = ({
-  product: { price, stockCount },
+  product: { id, price, stockCount },
+  userId,
   setQty,
   handleCartItem,
   loading,
   error,
   setError,
 }) => {
+  const [averageRating, setAverageRating] = useState(null);
+  const [ratingCount, setRatingCount] = useState(null);
+
+  useEffect(() => {
+    fetchAverageRating(userId, id, setAverageRating, setRatingCount);
+  }, [userId, id]);
+
   return (
     <div className="product-quantity flex flex-col justify-between space-y-2 md:space-y-4">
       <div className="flex justify-between items-center">
         <p>Price:</p>
         <p>${price}</p>
+      </div>
+      <hr></hr>
+      <div className="flex justify-between items-center">
+        <p>Rating:</p>
+        <ProductRating rating={averageRating} ratingCount={ratingCount}/>
       </div>
       <hr></hr>
       <div className="flex justify-between items-center">

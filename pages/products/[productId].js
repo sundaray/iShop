@@ -83,6 +83,7 @@ const Product = () => {
           <ProductImageGallery product={product} />
           <ProductQuantity
             product={product}
+            userId={user.uid}
             setQty={setQty}
             handleCartItem={() =>
               handleAddToCart(product, qty, setLoading, setError)

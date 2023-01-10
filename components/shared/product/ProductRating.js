@@ -4,7 +4,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { StarIcon } from "@heroicons/react/24/outline";
 
-const ProductRating = ({ rating }) => {
+const ProductRating = ({ rating, ratingCount = 0 }) => {
   return (
     <>
       <div className="flex items-center mb-2">
@@ -58,6 +58,7 @@ const ProductRating = ({ rating }) => {
         ) : (
           <StarIcon className="inline w-5 h-5 text-yellow-400" />
         )}
+        {ratingCount > 0 ? <span className="ml-1">{ratingCount}</span> : ""}
       </div>
     </>
   );

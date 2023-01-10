@@ -298,3 +298,18 @@ export const fetchProductReviews = async (
     setUserReviewed(true);
   }
 };
+
+// Fetch average rating for a product
+
+export const fetchAverageRating = async (userId, productId, setAverageRating, setRatingCount) => {
+  const reviews = [];
+  let averageRating;
+  const reviewsRef = query(
+    collection(db, "products", productId, "reviews")
+  );
+  const reviewsSnapshot = await getDocs(reviewsRef);
+  reviewsSnapshot.forEach((doc) => reviews.push(doc.data()));
+    averageRating = reviews.reduce((x, y) => x + y.rating, 0) / reviews.length;
+    setAverageRating(averageRating);
+    setRatingCount(reviews.length)
+};
