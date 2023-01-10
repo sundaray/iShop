@@ -20,7 +20,7 @@ const FormInputDesc = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <textarea
-        className={`rounded peer appearance-none bg-white border ${
+        className={`rounded peer appearance-none bg-gray-50 border ${
           formik.touched.description && formik.errors.description
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"
@@ -32,7 +32,7 @@ const FormInputDesc = ({ formik }) => {
         {...formik.getFieldProps("description")}
       />
       <label
-        className="absolute transition-all left-2 -top-2.5 bg-white text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm peer-focus:bg-white"
+        className="absolute transition-all left-2 -top-2.5 bg-gray-50 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm peer-focus:bg-gray-50"
         htmlFor="description"
       >
         Description

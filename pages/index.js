@@ -4,6 +4,8 @@ import Image from "next/image";
 import { fetchProducts } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 import PageError from "../components/shared/error/PageError";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -21,12 +23,12 @@ const Home = () => {
       ) : error ? (
         <PageError error={error} setError={setError} />
       ) : (
-        <main className="mt-24">
-          <div className="flex">
+        <main className="w-11/12 mt-24 m-auto">
+          <div className="flex flex-wrap">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="border rounded shadow-sm w-1/5 mr-4 px-4 py-4"
+                className="flex flex-col justify-between border rounded shadow-sm w-1/5 mr-4 mb-4 px-4 py-4"
               >
                 <Image
                   src={product.imgUrls[0]}
@@ -36,12 +38,14 @@ const Home = () => {
                   className="rounded mb-4"
                   priority
                 />
-                <Link href={`/products/${product.id}`}>
-                  <h1 className="font-medium mb-4 hover:underline transition-all">
-                    {product.name}
-                  </h1>
-                </Link>
-                <h2 className="font-medium">${product.price}</h2>
+                <div>
+                  <Link href={`/products/${product.id}`}>
+                    <h1 className="font-medium mb-2 hover:underline transition-all">
+                      {product.name}
+                    </h1>
+                  </Link>
+                  <h2 className="font-medium">Rs. {product.price}</h2>
+                </div>
               </div>
             ))}
           </div>

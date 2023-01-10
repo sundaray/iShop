@@ -204,6 +204,7 @@
   scale: 0.6;
 }
 
+
 .product-page-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -268,6 +269,12 @@
     grid-column: 2 / 12;
     grid-row: 6 / 7;
   }  
+
+  .product-reviews {
+    grid-column: 2 / 12;
+    grid-row: 9 / 10;
+  }
+  
 }
 
 

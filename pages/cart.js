@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import getStripe from "../utils/get-stripe";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 import { cartItemsQtyContext } from "./_app";
 import { auth } from "../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -70,7 +72,7 @@ const Cart = () => {
           <div className="flex flex-col items-center space-y-8 mb-12 ">
             <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
               {cartItemsQty > 0
-                ? `Your cart total is $${totalPrice}.`
+                ? `Your cart total is Rs. ${totalPrice}.`
                 : "Your cart is empty"}
             </p>
             {cartItemsQty > 0 ? (
@@ -125,7 +127,7 @@ const Cart = () => {
                       </option>
                     ))}
                   </select>
-                  <p>${price}</p>
+                  <p>Rs. {price}</p>
                   <TrashIcon
                     onClick={() => handleDeleteCartItem(id)}
                     className="cursor-pointer h-5 w-5 text-gray-500 hover:text-gray-600 transition-all"

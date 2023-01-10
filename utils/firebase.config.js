@@ -301,7 +301,7 @@ export const fetchProductReviews = async (
 
 // Fetch average rating for a product
 
-export const fetchAverageRating = async (userId, productId, setAverageRating, setRatingCount) => {
+export const fetchAverageRating = async (productId, setAverageRating, setRatingCount) => {
   const reviews = [];
   let averageRating;
   const reviewsRef = query(
