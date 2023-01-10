@@ -6,7 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase.config";
 import { addToCart } from "../../utils/firebase.config";
 import { fetchProduct } from "../../utils/firebase.config";
-import { fetchReviewStatus } from "../../utils/firebase.config";
+import { fetchBoughtStatus } from "../../utils/firebase.config";
 import { fetchProductReviews } from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDescription from "../../components/shared/product/ProductDescription";
@@ -18,11 +18,10 @@ import PageError from "../../components/shared/error/PageError";
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
-  const [reviews, setReviews] = useState(null);
-  const [noOfReviews, setNoOfReviews] = useState(0);
-  const [error, setError] = useState(false);
+  const [productReviews, setProductReviews] = useState([]);
   const [boughtByUser, setBoughtByUser] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
@@ -39,9 +38,12 @@ const Product = () => {
 
   useEffect(() => {
     fetchProduct(setLoading, setError, setProduct, productId);
+  }, [productId]);
+
+  useEffect(() => {
     if (user) {
-      fetchReviewStatus(productId, user.uid, setBoughtByUser);
-      fetchProductReviews(productId, setReviews, setNoOfReviews);
+      fetchBoughtStatus(productId, user.uid, setBoughtByUser);
+      fetchProductReviews(productId, setProductReviews);
     }
   }, [boughtByUser, user, productId]);
 
@@ -60,7 +62,7 @@ const Product = () => {
     }
   };
 
-  if (!product && !loading && !error && !reviews && !boughtByUser) {
+  if (!product && !loading && !error && !productReviews && !boughtByUser) {
     return <PageSpinner />;
   }
 
@@ -97,12 +99,12 @@ const Product = () => {
             <ProductReviewForm
               userId={user?.uid}
               productId={productId}
-              setReviews={setReviews}
-              setNoOfReviews={setNoOfReviews}
+              setProductReviews={setProductReviews}
+              setShowReviewForm={setShowReviewForm}
             />
           )}
-          {noOfReviews > 0 && reviews && (
-            <ProductReviews reviews={reviews} noOfReviews={noOfReviews} />
+          {productReviews.length > 0 && (
+            <ProductReviews productReviews={productReviews} />
           )}
         </main>
       ) : (

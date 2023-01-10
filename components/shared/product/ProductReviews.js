@@ -2,18 +2,13 @@ import ProductRating from "./ProductRating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const ProductReviews = ({ reviews, noOfReviews }) => {
+const ProductReviews = ({ productReviews }) => {
   return (
     <div className="product-reviews">
       <h1 className="font-medium text-gray-900 text-xl mb-6">
         Customer Reviews
       </h1>
-      {reviews.map(({ reviewDate }) => {
-        console.log(reviewDate);
-        console.log(reviewDate.toDate());
-        console.log(reviewDate.toDate().toDateString());
-      })}
-      {reviews.map(({ id, userName, rating, review, reviewDate }) => (
+      {productReviews.map(({ id, userName, rating, review, reviewDate }) => (
         <div key={id} className="mb-12">
           <p className="font-medium mb-2">
             {" "}
@@ -24,7 +19,7 @@ const ProductReviews = ({ reviews, noOfReviews }) => {
             </span>
             )
           </p>
-          <ProductRating rating={rating} noOfReviews={noOfReviews} />
+          <ProductRating rating={rating} />
           <p>{review}</p>
         </div>
       ))}

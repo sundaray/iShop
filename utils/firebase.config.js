@@ -221,9 +221,9 @@ export const createOrderItems = async (userId) => {
   });
 };
 
-// Find out whether customer reviews exist for a product
+// Find out whether the logger in user has bought the product or not
 
-export const fetchReviewStatus = async (productId, userId, setBoughtByUser) => {
+export const fetchBoughtStatus = async (productId, userId, setBoughtByUser) => {
   const orderItemsQuery = query(
     collection(db, "orderItems"),
     where("productIds", "array-contains", productId),
@@ -265,11 +265,7 @@ export const addReview = async (
 };
 
 // Fetch reviews for a product
-export const fetchProductReviews = async (
-  productId,
-  setReviews,
-  setNoOfReviews
-) => {
+export const fetchProductReviews = async (productId, setProductReviews) => {
   const reviews = [];
   const reviewsRef = collection(db, "products", productId, "reviews");
   const reviewsSnapshot = await getDocs(reviewsRef);
@@ -280,6 +276,5 @@ export const fetchProductReviews = async (
       ...doc.data(),
     })
   );
-  setReviews(reviews);
-  setNoOfReviews(noOfReviews);
+  setProductReviews(reviews);
 };

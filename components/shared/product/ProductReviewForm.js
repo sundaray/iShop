@@ -38,12 +38,7 @@ const errorVariant = {
   },
 };
 
-const ProductReviewForm = ({
-  userId,
-  productId,
-  setReviews,
-  setNoOfReviews,
-}) => {
+const ProductReviewForm = ({ userId, productId, setProductReviews }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -64,7 +59,7 @@ const ProductReviewForm = ({
     }),
     onSubmit: ({ name, rating, review }) => {
       addReview(productId, userId, name, rating, review, setLoading, setError);
-      fetchProductReviews(productId, setReviews, setNoOfReviews);
+      fetchProductReviews(productId, setProductReviews);
     },
   });
 
@@ -78,11 +73,11 @@ const ProductReviewForm = ({
           exit="initial"
           className="product-review-form mb-12"
         >
-          <ErrorFormSubmission error={error} setError={setError} />
           <form
             className="w-11/12 md:w-3/5 xl:w-2/5 flex flex-col"
             onSubmit={formik.handleSubmit}
           >
+            <ErrorFormSubmission error={error} setError={setError} />
             <div className="flex flex-col mb-6 relative">
               <FormInput
                 formik={formik}
