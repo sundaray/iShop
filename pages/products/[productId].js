@@ -23,12 +23,12 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [productReviews, setProductReviews] = useState([]);
   const [boughtByUser, setBoughtByUser] = useState(false);
+  const [userReviewed, setUserReviewed] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
   const { setCartItemsQty } = useContext(cartItemsQtyContext);
 
   const [user] = useAuthState(auth);
-
   const router = useRouter();
 
   const productId =
@@ -43,7 +43,12 @@ const Product = () => {
   useEffect(() => {
     if (user) {
       fetchBoughtStatus(productId, user.uid, setBoughtByUser);
-      fetchProductReviews(productId, setProductReviews);
+      fetchProductReviews(
+        productId,
+        setProductReviews,
+        user.uid,
+        setUserReviewed
+      );
     }
   }, [boughtByUser, user, productId]);
 
@@ -86,7 +91,7 @@ const Product = () => {
             setError={setError}
           />
           <ProductDescription product={product} />
-          {boughtByUser && (
+          {boughtByUser && !userReviewed && (
             <div className="write-review bg-gray-900 text-gray-50 rounded w-40 px-2 py-2 mb-6 flex justify-between items-center">
               <h1 className="text-gray-50">Write a review</h1>
               <ChevronDownIcon
@@ -95,12 +100,13 @@ const Product = () => {
               />
             </div>
           )}
-          {showReviewForm && (
+          {showReviewForm && !userReviewed && (
             <ProductReviewForm
               userId={user?.uid}
               productId={productId}
               setProductReviews={setProductReviews}
               setShowReviewForm={setShowReviewForm}
+              setUserReviewed={setUserReviewed}
             />
           )}
           {productReviews.length > 0 && (

@@ -265,16 +265,44 @@ export const addReview = async (
 };
 
 // Fetch reviews for a product
-export const fetchProductReviews = async (productId, setProductReviews) => {
+export const fetchProductReviews = async (
+  productId,
+  setProductReviews,
+  userId,
+  setUserReviewed
+) => {
   const reviews = [];
   const reviewsRef = collection(db, "products", productId, "reviews");
   const reviewsSnapshot = await getDocs(reviewsRef);
-  const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
-  const noOfReviews = reviewsSnapshot2.data().count;
+  // const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
   reviewsSnapshot.forEach((doc) =>
     reviews.push({
       ...doc.data(),
     })
   );
   setProductReviews(reviews);
+
+  // count the number of reviews by the user
+  const userReviewsQuery = query(
+    collection(db, "products", productId, "reviews"),
+    where("userId", "==", userId)
+  );
+  const userReviewsSnapshot = await getDocs(userReviewsQuery);
+  if (userReviewsSnapshot.size > 0) {
+    setUserReviewed(true);
+  }
 };
+
+// export const fetchProductReviews = async (productId, setProductReviews) => {
+//   const reviews = [];
+//   const reviewsRef = collection(db, "products", productId, "reviews");
+//   const reviewsSnapshot = await getDocs(reviewsRef);
+//   const reviewsSnapshot2 = await getCountFromServer(reviewsRef);
+//   const noOfReviews = reviewsSnapshot2.data().count;
+//   reviewsSnapshot.forEach((doc) =>
+//     reviews.push({
+//       ...doc.data(),
+//     })
+//   );
+//   setProductReviews(reviews);
+// };

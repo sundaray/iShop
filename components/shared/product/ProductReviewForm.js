@@ -38,7 +38,7 @@ const errorVariant = {
   },
 };
 
-const ProductReviewForm = ({ userId, productId, setProductReviews }) => {
+const ProductReviewForm = ({ userId, productId, setProductReviews, setUserReviewed }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -59,7 +59,7 @@ const ProductReviewForm = ({ userId, productId, setProductReviews }) => {
     }),
     onSubmit: ({ name, rating, review }) => {
       addReview(productId, userId, name, rating, review, setLoading, setError);
-      fetchProductReviews(productId, setProductReviews);
+      fetchProductReviews(productId, setProductReviews, userId, setUserReviewed);
     },
   });
 
