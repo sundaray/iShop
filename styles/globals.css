@@ -204,6 +204,10 @@
   scale: 0.6;
 }
 
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60rem, 1fr));
+}
 
 .product-page-container {
   display: grid;
