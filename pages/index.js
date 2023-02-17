@@ -7,14 +7,35 @@ import PageError from "../components/shared/error/PageError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 
+const productsPerPage = 8;
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);
+  const [finalProducts, setFinalProducts] = useState(
+    products.slice(0, productsPerPage)
+  );
 
   useEffect(() => {
-    fetchProducts(setProducts, setLoading, setError);
+    fetchProducts(
+      setProducts,
+      setFinalProducts,
+      productsPerPage,
+      setLoading,
+      setError
+    );
   }, []);
+
+  const showLoadMoreButton = products.length > finalProducts.length;
+
+  const loadMoreProducts = () => {
+    const newProducts = products.slice(
+      finalProducts.length,
+      finalProducts.length + productsPerPage
+    );
+    setFinalProducts([...finalProducts, ...newProducts]);
+  };
 
   return (
     <>
@@ -25,7 +46,7 @@ const Home = () => {
       ) : (
         <main className="w-11/12 mt-24 m-auto">
           <div className="flex flex-wrap">
-            {products.map((product) => (
+            {finalProducts.map((product) => (
               <div
                 key={product.id}
                 className="flex flex-col justify-between border rounded shadow-sm w-1/5 mr-4 mb-4 px-4 py-4"
@@ -49,6 +70,14 @@ const Home = () => {
               </div>
             ))}
           </div>
+          {showLoadMoreButton && (
+            <button
+              className="border rounded px-1 py-0.5"
+              onClick={loadMoreProducts}
+            >
+              Load More
+            </button>
+          )}
         </main>
       )}
     </>

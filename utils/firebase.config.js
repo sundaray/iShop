@@ -53,7 +53,13 @@ export const checkAdminStatus = async (uid) => {
 };
 
 //Fetch products
-export const fetchProducts = async (setProducts, setLoading, setError) => {
+export const fetchProducts = async (
+  setProducts,
+  setFinalProducts,
+  productsPerPage,
+  setLoading,
+  setError
+) => {
   try {
     setLoading(true);
     const products = [];
@@ -65,6 +71,7 @@ export const fetchProducts = async (setProducts, setLoading, setError) => {
       })
     );
     setProducts(products);
+    setFinalProducts(products.slice(0, productsPerPage));
     setLoading(false);
   } catch (error) {
     setLoading(false);
@@ -301,15 +308,17 @@ export const fetchProductReviews = async (
 
 // Fetch average rating for a product
 
-export const fetchAverageRating = async (productId, setAverageRating, setRatingCount) => {
+export const fetchAverageRating = async (
+  productId,
+  setAverageRating,
+  setRatingCount
+) => {
   const reviews = [];
   let averageRating;
-  const reviewsRef = query(
-    collection(db, "products", productId, "reviews")
-  );
+  const reviewsRef = query(collection(db, "products", productId, "reviews"));
   const reviewsSnapshot = await getDocs(reviewsRef);
   reviewsSnapshot.forEach((doc) => reviews.push(doc.data()));
-    averageRating = reviews.reduce((x, y) => x + y.rating, 0) / reviews.length;
-    setAverageRating(averageRating);
-    setRatingCount(reviews.length)
+  averageRating = reviews.reduce((x, y) => x + y.rating, 0) / reviews.length;
+  setAverageRating(averageRating);
+  setRatingCount(reviews.length);
 };
