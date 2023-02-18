@@ -72,7 +72,7 @@ const Home = () => {
           </div>
           {showLoadMoreButton && (
             <button
-              className="border rounded px-1 py-0.5"
+              className="mb-6 mt-2 shadow rounded bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md"
               onClick={loadMoreProducts}
             >
               Load More
