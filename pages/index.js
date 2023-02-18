@@ -47,7 +47,7 @@ const Home = () => {
             {finalProducts.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col justify-between border rounded shadow-sm w-1/5 mr-4 mb-4 px-4 py-4"
+                className="flex flex-col justify-between border rounded shadow-sm w-full md:w-1/4 lg:w-1/5 mr-4 mb-4 px-4 py-4"
               >
                 <Image
                   src={product.imgUrls[0]}

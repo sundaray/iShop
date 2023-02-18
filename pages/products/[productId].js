@@ -43,14 +43,17 @@ const Product = () => {
   useEffect(() => {
     if (user) {
       fetchBoughtStatus(productId, user.uid, setBoughtByUser);
-      fetchProductReviews(
-        productId,
-        setProductReviews,
-        user.uid,
-        setUserReviewed
-      );
     }
   }, [boughtByUser, user, productId]);
+
+  useEffect(() => {
+    fetchProductReviews(
+      productId,
+      setProductReviews,
+      user?.uid,
+      setUserReviewed
+    );
+  }, [user, productId]);
 
   const handleAddToCart = (product, qty, setLoading, setError) => {
     if (user) {
