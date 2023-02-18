@@ -13,9 +13,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);
-  const [finalProducts, setFinalProducts] = useState(
-    products.slice(0, productsPerPage)
-  );
+  const [finalProducts, setFinalProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts(
