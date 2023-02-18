@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
     <>
       <cartItemsQtyContext.Provider value={cartItems}>
         <PrivateRoute protectedRoutes={protectedRoutes}>
-          <Navigation qty={cartItemsQty} />
+          <Navigation />
           <Component {...pageProps} />
         </PrivateRoute>
       </cartItemsQtyContext.Provider>

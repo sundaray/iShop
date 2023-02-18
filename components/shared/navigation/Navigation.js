@@ -20,7 +20,7 @@ const cartVariants = {
   },
 };
 
-const Navigation = ({ qty }) => {
+const Navigation = () => {
   const [user] = useAuthState(auth);
 
   const router = useRouter();
@@ -52,7 +52,7 @@ const Navigation = ({ qty }) => {
                     exit="initial"
                     className="rounded-full absolute -top-2 left-3 w-5 h-5 flex justify-center items-center bg-yellow-300"
                   >
-                    <p className="text-gray-900"> {qty}</p>
+                    <p className="text-gray-900"> {cartItemsQty}</p>
                   </motion.div>
                 ) : (
                   ""

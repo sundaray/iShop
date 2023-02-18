@@ -83,7 +83,7 @@ const Product = () => {
           <ProductImageGallery product={product} />
           <ProductQuantity
             product={product}
-            userId={user.uid}
+            userId={user?.uid}
             setQty={setQty}
             handleCartItem={() =>
               handleAddToCart(product, qty, setLoading, setError)
@@ -102,13 +102,7 @@ const Product = () => {
             </div>
           )}
           {showReviewForm && !userReviewed && (
-            <ProductReviewForm
-              userId={user?.uid}
-              productId={productId}
-              setProductReviews={setProductReviews}
-              setShowReviewForm={setShowReviewForm}
-              setUserReviewed={setUserReviewed}
-            />
+            <ProductReviewForm userId={user?.uid} productId={productId} />
           )}
           {productReviews.length > 0 && (
             <ProductReviews productReviews={productReviews} />

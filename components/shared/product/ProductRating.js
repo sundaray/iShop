@@ -58,7 +58,7 @@ const ProductRating = ({ rating, ratingCount = 0 }) => {
         ) : (
           <StarIcon className="inline w-5 h-5 text-yellow-400" />
         )}
-        {ratingCount > 0 ? <span className="ml-1">{ratingCount}</span> : ""}
+        {ratingCount > 0 ? <span className="ml-1">({ratingCount})</span> : ""}
       </div>
     </>
   );

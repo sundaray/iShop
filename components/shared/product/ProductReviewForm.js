@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
-import { addReview, fetchProductReviews } from "../../../utils/firebase.config";
+import { addReview } from "../../../utils/firebase.config";
 import ErrorFormSubmission from "../ErrorFormSubmission";
 import FormInput from "../FormInput";
+import FormInputSelect from "../FormInputSelect";
 import FormInputComment from "../FormInputComment";
 import Spinner from "../Spinner";
 
@@ -38,9 +40,11 @@ const errorVariant = {
   },
 };
 
-const ProductReviewForm = ({ userId, productId, setProductReviews, setUserReviewed }) => {
+const ProductReviewForm = ({ userId, productId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -59,7 +63,7 @@ const ProductReviewForm = ({ userId, productId, setProductReviews, setUserReview
     }),
     onSubmit: ({ name, rating, review }) => {
       addReview(productId, userId, name, rating, review, setLoading, setError);
-      fetchProductReviews(productId, setProductReviews, userId, setUserReviewed);
+      router.push("/");
     },
   });
 
@@ -78,46 +82,16 @@ const ProductReviewForm = ({ userId, productId, setProductReviews, setUserReview
             onSubmit={formik.handleSubmit}
           >
             <ErrorFormSubmission error={error} setError={setError} />
-            <div className="flex flex-col mb-6 relative">
+            <div className="flex flex-col relative">
               <FormInput
                 formik={formik}
                 label="Name"
                 field="name"
                 type="text"
               />
-              <select
-                className={`bg-gray-50 border rounded ${
-                  formik.touched.rating && formik.errors.rating
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
-                } py-2 px-1 leading-tight focus:outline-none`}
-                name="rating"
-                id="rating"
-                {...formik.getFieldProps("rating")}
-              >
-                <option value="">Select a rating</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-
-              <AnimatePresence>
-                {formik.touched.rating && formik.errors.rating ? (
-                  <motion.span
-                    variants={errorVariant}
-                    initial="initial"
-                    animate="animate"
-                    exit="initial"
-                    className="text-red-500 text-xs mt-1"
-                  >
-                    {formik.errors.rating}
-                  </motion.span>
-                ) : null}
-              </AnimatePresence>
+              <FormInputSelect formik={formik} />
+              <FormInputComment formik={formik} />
             </div>
-            <FormInputComment formik={formik} />
             <button
               disabled={loading}
               className="bg-blue-600 text-blue-50 px-2 py-1 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
