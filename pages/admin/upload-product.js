@@ -12,7 +12,7 @@ import FormInput from "../../components/shared/FormInput";
 import FormInputDesc from "../../components/shared/FormInputDesc";
 import FormInputImage from "../../components/shared/FormInputImage";
 
-const ProductUpload = () => {
+const UploadProduct = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -117,15 +117,12 @@ const ProductUpload = () => {
   });
 
   return (
-    <div className="w-11/12 md:w-3/5 xl:w-1/3 m-auto my-24">
-      <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">
-        Product
+    <div className="w-11/12 md:w-3/5 xl:w-2/5 m-auto my-24">
+      <h1 className="font-bold text-3xl text-gray-800 ml-8 mb-6">
+        Upload product
       </h1>
       <ErrorFormSubmission error={error} setError={setError} />
-      <form
-        className="shadow-md border rounded-xl flex flex-col"
-        onSubmit={formik.handleSubmit}
-      >
+      <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col mx-8 my-8">
           <FormInputImage formik={formik} />
           <FormInput formik={formik} label="Name" field="name" type="text" />
@@ -165,4 +162,4 @@ const ProductUpload = () => {
   );
 };
 
-export default ProductUpload;
+export default UploadProduct;
