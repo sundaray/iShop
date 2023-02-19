@@ -6,7 +6,7 @@ import { db } from "../../utils/firebase.config";
 import { storage } from "../../utils/firebase.config";
 import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import ErrorFormSubmission from "../../components/shared/FormSubmissionError";
 import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
 import FormTextArea from "../../components/shared/FormTextArea";

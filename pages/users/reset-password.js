@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../utils/firebase.config";
-import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import ErrorFormSubmission from "../../components/shared/FormSubmissionError";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
 import FormInput from "../../components/shared/FormInput";
 import Spinner from "../../components/shared/Spinner";

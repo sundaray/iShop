@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
 import { addReview } from "../../../utils/firebase.config";
-import ErrorFormSubmission from "../ErrorFormSubmission";
+import ErrorFormSubmission from "../FormSubmissionError";
 import FormInput from "../FormInput";
 import FormInputSelect from "../FormInputSelect";
 import FormInputComment from "../FormInputComment";

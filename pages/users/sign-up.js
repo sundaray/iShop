@@ -10,7 +10,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
-import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import ErrorFormSubmission from "../../components/shared/FormSubmissionError";
 import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
 import FormInputPassword from "../../components/shared/FormInputPassword";

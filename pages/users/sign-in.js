@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../utils/firebase.config";
-import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
+import FormSubmissionError from "../../components/shared/FormSubmissionError";
 import FormInput from "../../components/shared/FormInput";
 import FormInputPassword from "../../components/shared/FormInputPassword";
 import SignInWithGoogle from "../../components/shared/SignInWithGoogle";
@@ -64,20 +64,20 @@ const SignIn = () => {
     <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
       <h1 className="font-bold text-3xl text-gray-900 ml-8">Sign in</h1>
       <Link href="/users/sign-up">
-        <p className="text-sm text-gray-700 font-medium ml-8">
+        <p className="text-sm text-gray-700 font-medium ml-8 mb-6">
           New user?{" "}
           <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
             Sign up
           </span>
         </p>
       </Link>
-      <ErrorFormSubmission error={error} setError={setError} />
+      <FormSubmissionError error={error} />
       <form
         className="relative flex flex-col m-auto"
         onSubmit={formik.handleSubmit}
       >
         <div className="flex flex-col">
-          <div className="mx-8 mt-8">
+          <div className="mx-8 mt-6">
             <FormInput
               formik={formik}
               label="Email"
