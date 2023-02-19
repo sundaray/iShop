@@ -9,8 +9,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import ErrorFormSubmission from "../../components/shared/ErrorFormSubmission";
 import Spinner from "../../components/shared/Spinner";
 import FormInput from "../../components/shared/FormInput";
-import FormInputDesc from "../../components/shared/FormInputDesc";
-import FormInputImage from "../../components/shared/FormInputImage";
+import FormTextArea from "../../components/shared/FormTextArea";
+import FormInputFile from "../../components/shared/FormInputFile";
 
 const UploadProduct = () => {
   const [success, setSuccess] = useState(false);
@@ -124,9 +124,9 @@ const UploadProduct = () => {
       <ErrorFormSubmission error={error} setError={setError} />
       <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col mx-8 my-8">
-          <FormInputImage formik={formik} />
+          <FormInputFile formik={formik} />
           <FormInput formik={formik} label="Name" field="name" type="text" />
-          <FormInputDesc formik={formik} />
+          <FormTextArea formik={formik} />
           <FormInput
             formik={formik}
             label="Price"

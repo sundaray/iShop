@@ -14,6 +14,25 @@
   }
 }
 
+input::file-selector-button {
+  outline: none;
+  border: none;
+  background-color: #4b5563;
+  color: #f9fafb;
+  border-radius: .2rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  padding-top: .3rem;
+  padding-bottom: .3rem;
+  cursor: pointer;
+  transition: .1s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #374151;
+}
+
+
 .spinner-container {
   display: flex;
   justify-content: center;

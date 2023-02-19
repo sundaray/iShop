@@ -60,7 +60,7 @@ const FormInputPassword = ({ formik }) => {
         </svg>
       )}
       <input
-        className={`rounded peer appearance-none bg-white border ${
+        className={`rounded shadow-sm peer appearance-none bg-gray-50 border ${
           formik.touched.password && formik.errors.password
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"
@@ -72,7 +72,7 @@ const FormInputPassword = ({ formik }) => {
         {...formik.getFieldProps("password")}
       />
       <label
-        className="absolute transition-all left-2 -top-2.5 bg-white text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm peer-focus:bg-white"
+        className="absolute transition-all left-2 -top-2.5 bg-gray-50 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm peer-focus:bg-gray-50"
         htmlFor="password"
       >
         Password

@@ -64,15 +64,18 @@ const SignUp = () => {
   });
   return (
     <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
-      <h1 className="font-bold text-3xl text-gray-800 text-center mb-6">
-        Sign up for an account
-      </h1>
+      <h1 className="font-bold text-3xl text-gray-800 ml-8">Sign up</h1>
+      <Link href="/users/sign-in">
+        <p className="ml-8 text-sm text-gray-700 font-medium ">
+          Already a user?{" "}
+          <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
+            Sign in
+          </span>
+        </p>
+      </Link>
       <SuccessFormSubmission success={success} setSuccess={setSuccess} />
       <ErrorFormSubmission error={error} setError={setError} />
-      <form
-        className="shadow border rounded-xl flex flex-col"
-        onSubmit={formik.handleSubmit}
-      >
+      <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col">
           <div className="mx-8 mt-12">
             <FormInput
@@ -97,16 +100,6 @@ const SignUp = () => {
                 {loading ? <Spinner type="Signing... up" /> : "Sign up"}
               </button>
             </div>
-          </div>
-          <div className="bg-gray-100 rounded-b-xl w-full h-20 px-8 flex justify-center items-center">
-            <Link href="/users/sign-in">
-              <p className="text-sm text-gray-700 font-medium ">
-                Already a user?{" "}
-                <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
-                  Sign in
-                </span>
-              </p>
-            </Link>
           </div>
         </div>
       </form>

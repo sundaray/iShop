@@ -16,7 +16,7 @@ const errorVariant = {
   },
 };
 
-const FormInputDesc = ({ formik }) => {
+const FormTextArea = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <textarea
@@ -56,4 +56,4 @@ const FormInputDesc = ({ formik }) => {
   );
 };
 
-export default FormInputDesc;
+export default FormTextArea;
