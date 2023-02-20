@@ -4,11 +4,11 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
 import { addReview } from "../../../utils/firebase.config";
-import ErrorFormSubmission from "../FormSubmissionError";
+import FormSubmissionError from "../FormSubmissionError";
 import FormInput from "../FormInput";
 import FormInputSelect from "../FormInputSelect";
 import FormInputComment from "../FormInputComment";
-import Spinner from "../Spinner";
+import FormSubmissionSpinner from "../FormSubmissionSpinner";
 
 const formVariant = {
   initial: {
@@ -81,7 +81,7 @@ const ProductReviewForm = ({ userId, productId }) => {
             className="w-11/12 md:w-3/5 xl:w-2/5 flex flex-col"
             onSubmit={formik.handleSubmit}
           >
-            <ErrorFormSubmission error={error} setError={setError} />
+            <FormSubmissionError error={error} />
             <div className="flex flex-col relative">
               <FormInput
                 formik={formik}
@@ -97,7 +97,11 @@ const ProductReviewForm = ({ userId, productId }) => {
               className="bg-blue-600 text-blue-50 px-2 py-1 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
             >
-              {loading ? <Spinner type="Submitting..." /> : "Submit"}
+              {loading ? (
+                <FormSubmissionSpinner text="Submitting..." />
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         </motion.div>

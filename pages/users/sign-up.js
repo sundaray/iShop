@@ -11,7 +11,6 @@ import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner
 import { signUp } from "../../utils/firebase.config";
 
 const SignUp = () => {
-  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 

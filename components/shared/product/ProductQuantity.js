@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Spinner from "../Spinner";
+import FormSubmissionSpinner from "../FormSubmissionSpinner";
 import ProductRating from "./ProductRating";
 import { fetchAverageRating } from "../../../utils/firebase.config";
 
@@ -57,7 +57,7 @@ const ProductQuantity = ({
         disabled={loading}
         className="shadow rounded px-2 py-2 bg-blue-600 text-blue-50 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? <Spinner type="Adding..." /> : "Add to cart"}
+        {loading ? <FormSubmissionSpinner text="Adding..." /> : "Add to cart"}
       </button>
     </div>
   );

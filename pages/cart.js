@@ -77,9 +77,9 @@ const Cart = () => {
             </p>
             {cartItemsQty > 0 ? (
               <button
-                className="border rounded w-44 px-2 py-1
+                className="rounded w-44 px-2 py-1
                     bg-blue-600 text-blue-50 hover:bg-blue-700
-                } hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                } disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 onClick={redirectToCheckout}
               >
                 Check out
@@ -88,7 +88,7 @@ const Cart = () => {
               <Link href="/">
                 <button
                   className="border rounded w-44 px-2 py-1 bg-gray-100 hover:border-gray-400
-                  hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  hover:shadow transition-all"
                 >
                   Continue shopping
                 </button>
