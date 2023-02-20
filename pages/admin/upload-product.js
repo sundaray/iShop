@@ -114,52 +114,59 @@ const UploadProduct = () => {
     },
   });
 
-  if (isAdmin === false) {
-    return <p className="text-center">Only admins have access to this page</p>;
-  }
-
   return (
     <div className="w-11/12 md:w-3/5 xl:w-2/5 m-auto my-24">
-      <h1 className="font-bold text-3xl text-gray-900 text-center mb-6">
-        Upload product {isAdmin}
-      </h1>
-      <FormSubmissionError error={error} />
-      <form className="flex flex-col" onSubmit={formik.handleSubmit}>
-        <div className="flex flex-col mx-8 my-8">
-          <FormInputFile formik={formik} />
-          <FormInput formik={formik} label="Name" field="name" type="text" />
-          <FormTextArea formik={formik} />
-          <FormInput
-            formik={formik}
-            label="Price"
-            field="price"
-            type="number"
-          />
-          <FormInput
-            formik={formik}
-            label="Stock count"
-            field="stockCount"
-            type="number"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className={`rounded w-full px-2 py-2 ${
-              success === true
-                ? "bg-green-600 text-green-50"
-                : "bg-blue-600 text-blue-50"
-            }  hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
-          >
-            {loading ? (
-              <FormSubmissionSpinner text="Uploading..." />
-            ) : success ? (
-              "Uploaded"
-            ) : (
-              "Upload"
-            )}
-          </button>
-        </div>
-      </form>
+      {!isAdmin ? (
+        <p className="text-center">Only admins have access to this page.</p>
+      ) : (
+        <>
+          <h1 className="font-bold text-3xl text-gray-900 text-center mb-6">
+            Upload product {isAdmin}
+          </h1>
+          <FormSubmissionError error={error} />
+          <form className="flex flex-col" onSubmit={formik.handleSubmit}>
+            <div className="flex flex-col mx-8 my-8">
+              <FormInputFile formik={formik} />
+              <FormInput
+                formik={formik}
+                label="Name"
+                field="name"
+                type="text"
+              />
+              <FormTextArea formik={formik} />
+              <FormInput
+                formik={formik}
+                label="Price"
+                field="price"
+                type="number"
+              />
+              <FormInput
+                formik={formik}
+                label="Stock count"
+                field="stockCount"
+                type="number"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={`rounded w-full px-2 py-2 ${
+                  success === true
+                    ? "bg-green-600 text-green-50"
+                    : "bg-blue-600 text-blue-50"
+                }  hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                {loading ? (
+                  <FormSubmissionSpinner text="Uploading..." />
+                ) : success ? (
+                  "Uploaded"
+                ) : (
+                  "Upload"
+                )}
+              </button>
+            </div>
+          </form>
+        </>
+      )}
     </div>
   );
 };
