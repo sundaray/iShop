@@ -49,28 +49,26 @@ const Home = () => {
                 key={product.id}
                 className="flex flex-col justify-between border rounded shadow-sm w-full md:w-1/4 lg:w-1/5 mr-4 mb-4 px-4 py-4"
               >
-                <Image
-                  src={product.imgUrls[0]}
-                  width={500}
-                  height={500}
-                  alt="Picture of the product"
-                  className="rounded mb-4"
-                  priority
-                />
-                <div>
-                  <Link href={`/products/${product.id}`}>
-                    <h1 className="font-medium mb-2 hover:underline transition-all">
-                      {product.name}
-                    </h1>
-                  </Link>
-                  <h2 className="font-medium">Rs. {product.price}</h2>
-                </div>
+                <Link href={`/products/${product.id}`}>
+                  <Image
+                    src={product.imgUrls[0]}
+                    width={500}
+                    height={500}
+                    alt="Picture of the product"
+                    className="rounded mb-4"
+                    priority
+                  />
+                  <div>
+                    <h1 className="font-medium mb-2">{product.name}</h1>
+                    <h2 className="font-medium">Rs. {product.price}</h2>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
           {showLoadMoreButton && (
             <button
-              className="mb-6 mt-2 shadow rounded bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md"
+              className="mb-6 mt-2 rounded bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700"
               onClick={loadMoreProducts}
             >
               Load More

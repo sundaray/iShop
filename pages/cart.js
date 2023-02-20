@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import getStripe from "../utils/get-stripe";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 import { cartItemsQtyContext } from "./_app";
 import { auth } from "../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";

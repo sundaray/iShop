@@ -20,7 +20,7 @@ const FormInputComment = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <textarea
-        className={`rounded peer appearance-none bg-gray-50 border ${
+        className={`rounded peer shadow-sm appearance-none bg-gray-50 border ${
           formik.touched.review && formik.errors.review
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"

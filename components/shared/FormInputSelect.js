@@ -20,7 +20,7 @@ const FormInputSelect = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <select
-        className={`bg-gray-50 border rounded ${
+        className={`bg-gray-50 border shadow-sm rounded ${
           formik.touched.rating && formik.errors.rating
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"

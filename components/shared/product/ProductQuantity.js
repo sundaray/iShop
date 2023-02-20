@@ -55,7 +55,7 @@ const ProductQuantity = ({
       <button
         onClick={handleCartItem}
         disabled={loading}
-        className="shadow rounded px-2 py-2 bg-blue-600 text-blue-50 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded px-2 py-2 bg-blue-600 text-blue-50 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? <FormSubmissionSpinner text="Adding..." /> : "Add to cart"}
       </button>

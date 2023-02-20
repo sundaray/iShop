@@ -96,8 +96,8 @@ const Product = () => {
           />
           <ProductDescription product={product} />
           {boughtByUser && !userReviewed && (
-            <div className="write-review bg-gray-900 text-gray-50 rounded w-40 px-2 py-2 mb-6 flex justify-between items-center">
-              <h1 className="text-gray-50">Write a review</h1>
+            <div className="write-review bg-blue-600 hover:bg-blue-700 text-gray-50 rounded w-40 px-2 py-2 mb-6 flex justify-between items-center transition-all">
+              <h1 className=" text-blue-50">Write a review</h1>
               <ChevronDownIcon
                 className="w-4 h-4 cursor-pointer"
                 onClick={() => setShowReviewForm(!showReviewForm)}

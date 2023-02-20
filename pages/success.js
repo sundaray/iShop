@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import axios from "axios";
 import { cartItemsQtyContext } from "./_app";
-import { CheckIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import PageSpinner from "../components/shared/PageSpinner";
 import { auth } from "../utils/firebase.config";
@@ -43,9 +44,19 @@ const Success = () => {
       {loading ? (
         <PageSpinner />
       ) : customerName ? (
-        <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 border rounded bg-gray-100">
-          <CheckIcon className="w-6 h-6 text-green-600" />
-          <h1 className="text-lg">Thanks for the order {customerName}!</h1>
+        <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4">
+          <CheckCircleIcon className="w-10 h-10 text-green-600" />
+          <h1 className="text-lg text-center">
+            Thanks for the order {customerName}!
+          </h1>
+          <Link href="/">
+            <button
+              className="border rounded w-44 px-2 py-1 bg-gray-100 hover:border-gray-400
+                  hover:shadow transition-all"
+            >
+              Continue shopping
+            </button>
+          </Link>
         </div>
       ) : (
         <div className="w-2/5 h-auto flex flex-col items-center m-auto mt-24 p-2 space-y-4 rounded bg-red-200">
