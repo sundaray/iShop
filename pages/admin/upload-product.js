@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { db } from "../../utils/firebase.config";
-import { storage } from "../../utils/firebase.config";
-import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, storage } from "../../utils/firebase.config";
+import { userData, uploadProduct } from "../../utils/firebase.config";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ErrorFormSubmission from "../../components/shared/FormSubmissionError";
-import Spinner from "../../components/shared/Spinner";
+import FormSubmissionError from "../../components/shared/FormSubmissionError";
+import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
 import FormInput from "../../components/shared/FormInput";
 import FormTextArea from "../../components/shared/FormTextArea";
 import FormInputFile from "../../components/shared/FormInputFile";
@@ -16,8 +16,18 @@ const UploadProduct = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const router = useRouter();
+  const [user] = useAuthState(auth);
+
+  useEffect(() => {
+    if (user) {
+      userData(user.uid).then((userData) => {
+        setIsAdmin(userData.isAdmin);
+      });
+    }
+  }, [user]);
 
   const formik = useFormik({
     initialValues: {
@@ -91,37 +101,29 @@ const UploadProduct = () => {
       });
 
       //Save the product in firestore
-      try {
-        setLoading(true);
-        const newProductRef = doc(collection(db, "products"));
-        await setDoc(newProductRef, {
-          id: newProductRef.id,
-          name,
-          description,
-          price,
-          stockCount,
-          imgUrls: imageUrls,
-          timestamp: serverTimestamp(),
-        });
-
-        setLoading(false);
-        resetForm();
-        setSuccess(true);
-        setTimeout(() => router.push("/"), 500);
-      } catch (error) {
-        setLoading(false);
-        setError(error.message);
-        setSuccess(false);
-      }
+      uploadProduct(
+        name,
+        description,
+        price,
+        stockCount,
+        imageUrls,
+        setLoading,
+        setError,
+        setSuccess
+      );
     },
   });
 
+  if (isAdmin === false) {
+    return <p className="text-center">Only admins have access to this page</p>;
+  }
+
   return (
     <div className="w-11/12 md:w-3/5 xl:w-2/5 m-auto my-24">
-      <h1 className="font-bold text-3xl text-gray-800 ml-8 mb-6">
-        Upload product
+      <h1 className="font-bold text-3xl text-gray-900 text-center mb-6">
+        Upload product {isAdmin}
       </h1>
-      <ErrorFormSubmission error={error} setError={setError} />
+      <FormSubmissionError error={error} />
       <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col mx-8 my-8">
           <FormInputFile formik={formik} />
@@ -142,14 +144,14 @@ const UploadProduct = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`shadow rounded w-full px-2 py-2 ${
+            className={`rounded w-full px-2 py-2 ${
               success === true
                 ? "bg-green-600 text-green-50"
                 : "bg-blue-600 text-blue-50"
-            }  hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed`}
+            }  hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {loading ? (
-              <Spinner type="Uploading..." />
+              <FormSubmissionSpinner text="Uploading..." />
             ) : success ? (
               "Uploaded"
             ) : (

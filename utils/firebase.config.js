@@ -24,7 +24,6 @@ import {
   serverTimestamp,
   where,
   writeBatch,
-  getCountFromServer,
   orderBy,
   Timestamp,
 } from "firebase/firestore";
@@ -58,6 +57,42 @@ export const checkAdminStatus = async (uid) => {
 
   if (userSnapshot.exists()) {
     return userSnapshot.data();
+  }
+};
+
+// Upload product
+
+export const uploadProduct = async (
+  name,
+  description,
+  price,
+  stockCount,
+  imageUrls,
+  setLoading,
+  setError,
+  setSuccess
+) => {
+  try {
+    setLoading(true);
+    const newProductRef = doc(collection(db, "products"));
+    await setDoc(newProductRef, {
+      id: newProductRef.id,
+      name,
+      description,
+      price,
+      stockCount,
+      imgUrls: imageUrls,
+      timestamp: serverTimestamp(),
+    });
+
+    setLoading(false);
+    resetForm();
+    setSuccess(true);
+    setTimeout(() => router.push("/"), 500);
+  } catch (error) {
+    setLoading(false);
+    setError(error.message);
+    setSuccess(false);
   }
 };
 
@@ -332,6 +367,36 @@ export const fetchAverageRating = async (
   setRatingCount(reviews.length);
 };
 
+// Create a user document in firestore
+
+const createUserDocument = async (user) => {
+  const { displayName, email } = user;
+
+  const userDocRef = doc(db, "users", user.uid);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (!userSnapshot.exists()) {
+    setDoc(userDocRef, {
+      displayName,
+      email,
+      timestamp: serverTimestamp(),
+      isAdmin: false,
+    });
+  }
+};
+
+// Get user document
+
+export const userData = async (uid) => {
+  const userDocRef = doc(db, "users", uid);
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (userSnapshot.exists()) {
+    return userSnapshot.data();
+  }
+};
+
 // Sign in user
 
 export const signIn = async (router, email, password, setLoading, setError) => {
@@ -339,6 +404,7 @@ export const signIn = async (router, email, password, setLoading, setError) => {
     setLoading(true);
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     if (user.emailVerified) {
+      createUserDocument(user);
       setError(null);
       setLoading(false);
       router.replace(
@@ -394,7 +460,12 @@ export const signUp = async (
 
 // Reset password
 
-export const resetPassword = async (email, setLoading, setError, setSuccess) => {
+export const resetPassword = async (
+  email,
+  setLoading,
+  setError,
+  setSuccess
+) => {
   try {
     setLoading(true);
     await sendPasswordResetEmail(auth, email);

@@ -8,7 +8,7 @@ import PrivateRoute from "../components/shared/routeguard/PrivateRoute";
 
 export const cartItemsQtyContext = createContext();
 
-const protectedRoutes = ["/admin/product-upload", "/cart"];
+const protectedRoutes = ["/admin/upload-product", "/cart"];
 
 export default function App({ Component, pageProps }) {
   const [cartItemsQty, setCartItemsQty] = useState(null);

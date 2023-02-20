@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../utils/firebase.config";
-import Spinner from "../FormSubmissionSpinner";
+import PageSpinner from "../PageSpinner";
 
 export default function PrivateRoute({ protectedRoutes, children }) {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function PrivateRoute({ protectedRoutes, children }) {
   if ((loading || !user) && pathIsProtected) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <Spinner />
+        <PageSpinner />
       </div>
     );
   }

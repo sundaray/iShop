@@ -20,7 +20,7 @@ const FormTextArea = ({ formik }) => {
   return (
     <div className="flex flex-col mb-6 relative">
       <textarea
-        className={`rounded peer appearance-none bg-gray-50 border ${
+        className={`rounded shadow-sm peer appearance-none bg-gray-50 border ${
           formik.touched.description && formik.errors.description
             ? "border-red-500 focus:border-red-500"
             : "border-gray-300 focus:border-blue-500"
