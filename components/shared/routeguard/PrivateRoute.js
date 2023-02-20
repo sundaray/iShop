@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../utils/firebase.config";
-import Spinner from "../Spinner";
+import Spinner from "../FormSubmissionSpinner";
 
 export default function PrivateRoute({ protectedRoutes, children }) {
   const router = useRouter();

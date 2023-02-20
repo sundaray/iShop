@@ -3,13 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../utils/firebase.config";
+import { signIn } from "../../utils/firebase.config";
 import FormSubmissionError from "../../components/shared/FormSubmissionError";
 import FormInput from "../../components/shared/FormInput";
 import FormInputPassword from "../../components/shared/FormInputPassword";
 import SignInWithGoogle from "../../components/shared/SignInWithGoogle";
-import Spinner from "../../components/shared/Spinner";
+import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
@@ -30,34 +29,8 @@ const SignIn = () => {
         .min(5, "Must be 5 characters or more")
         .required("Password is required"),
     }),
-    onSubmit: async ({ email, password }) => {
-      try {
-        setLoading(true);
-        const { user } = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        if (user.emailVerified) {
-          setError(null);
-          setLoading(false);
-          router.replace(
-            router.query.from ? decodeURIComponent(router.query.from) : "/"
-          );
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        setError(error.message);
-        if (error.code === "auth/user-not-found") {
-          setError("User not found");
-        } else if (error.code === "auth/wrong-password") {
-          setError("Invalid password");
-        } else if (error.code === "auth/network-request-failed") {
-          setError("Network Error");
-        }
-      }
+    onSubmit: ({ email, password }) => {
+      signIn(router, email, password, setLoading, setError);
     },
   });
   return (
@@ -95,7 +68,11 @@ const SignIn = () => {
               disabled={loading}
               className="w-full rounded mb-6 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? <Spinner type="Signing... in" /> : "Sign in"}
+              {loading ? (
+                <FormSubmissionSpinner text="Signing... in" />
+              ) : (
+                "Sign in"
+              )}
             </button>
             <div className="flex items-center mb-6">
               <div className="w-full h-px bg-gray-300"></div>

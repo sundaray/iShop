@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 import {
@@ -321,4 +326,32 @@ export const fetchAverageRating = async (
   averageRating = reviews.reduce((x, y) => x + y.rating, 0) / reviews.length;
   setAverageRating(averageRating);
   setRatingCount(reviews.length);
+};
+
+// Sign in user
+
+export const signIn = async (router, email, password, setLoading, setError) => {
+  try {
+    setLoading(true);
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    if (user.emailVerified) {
+      setError(null);
+      setLoading(false);
+      router.replace(
+        router.query.from ? decodeURIComponent(router.query.from) : "/"
+      );
+    } else {
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+    setError(error.message);
+    if (error.code === "auth/user-not-found") {
+      setError("User not found");
+    } else if (error.code === "auth/wrong-password") {
+      setError("Invalid password");
+    } else if (error.code === "auth/network-request-failed") {
+      setError("Network Error");
+    }
+  }
 };

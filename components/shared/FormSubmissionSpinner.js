@@ -1,12 +1,12 @@
 import React from "react";
 
-const Spinner = ({ type }) => {
+const FormSubmissionSpinner = ({ text }) => {
   return (
     <div className="flex items-center justify-center">
       <div className="loader mr-2"></div>
-      <p>{type}</p>
+      <p>{text}</p>
     </div>
   );
 };
 
-export default Spinner;
+export default FormSubmissionSpinner;
