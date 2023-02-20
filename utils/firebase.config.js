@@ -1,7 +1,11 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  updateProfile,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
@@ -352,6 +356,56 @@ export const signIn = async (router, email, password, setLoading, setError) => {
       setError("Invalid password");
     } else if (error.code === "auth/network-request-failed") {
       setError("Network Error");
+    }
+  }
+};
+
+// Sign up user
+
+export const signUp = async (
+  router,
+  username,
+  email,
+  password,
+  setLoading,
+  setError
+) => {
+  try {
+    setLoading(true);
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await sendEmailVerification(auth.currentUser).then(async () => {
+      setLoading(false);
+      router.push("/users/verify-email");
+      await updateProfile(auth.currentUser, {
+        displayName: username,
+      });
+    });
+  } catch (error) {
+    setLoading(false);
+    if (error.code === "auth/email-already-in-use") {
+      setError("User already registered");
+    }
+  }
+};
+
+// Reset password
+
+export const resetPassword = async (email, setLoading, setError, setSuccess) => {
+  try {
+    setLoading(true);
+    await sendPasswordResetEmail(auth, email);
+    setLoading(false);
+    setError(null);
+    setSuccess("Password reset email sent");
+  } catch (error) {
+    setLoading(false);
+    setSuccess(null);
+    if (error.code === "auth/user-not-found") {
+      setError("No user with that email address");
     }
   }
 };

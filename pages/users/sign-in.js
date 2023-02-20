@@ -35,9 +35,9 @@ const SignIn = () => {
   });
   return (
     <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
-      <h1 className="font-bold text-3xl text-gray-900 ml-8">Sign in</h1>
+      <h1 className="font-bold text-3xl text-gray-900 text-center">Sign in</h1>
       <Link href="/users/sign-up">
-        <p className="text-sm text-gray-700 font-medium ml-8 mb-6">
+        <p className="text-sm text-gray-600 text-center font-medium mb-6">
           New user?{" "}
           <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
             Sign up
@@ -65,7 +65,7 @@ const SignIn = () => {
             </Link>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !formik.isValid}
               className="w-full rounded mb-6 bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (

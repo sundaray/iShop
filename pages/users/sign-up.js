@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { auth } from "../../utils/firebase.config";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  updateProfile,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
 import SuccessFormSubmission from "../../components/shared/SuccessFormSubmission";
-import ErrorFormSubmission from "../../components/shared/FormSubmissionError";
-import Spinner from "../../components/shared/Spinner";
+import FormSubmissionError from "../../components/shared/FormSubmissionError";
 import FormInput from "../../components/shared/FormInput";
 import FormInputPassword from "../../components/shared/FormInputPassword";
+import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
+import { signUp } from "../../utils/firebase.config";
 
 const SignUp = () => {
   const [success, setSuccess] = useState(null);
@@ -39,45 +34,25 @@ const SignUp = () => {
         .min(5, "Must be 5 characters or more")
         .required("Password is required"),
     }),
-    onSubmit: async ({ username, email, password }) => {
-      try {
-        setLoading(true);
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await sendEmailVerification(auth.currentUser).then(async () => {
-          setLoading(false);
-          router.push("/users/verify-email");
-          await updateProfile(auth.currentUser, {
-            displayName: username,
-          });
-        });
-      } catch (error) {
-        setLoading(false);
-        if (error.code === "auth/email-already-in-use") {
-          setError("User already registered");
-        }
-      }
+    onSubmit: ({ username, email, password }) => {
+      signUp(router, username, email, password, setLoading, setError);
     },
   });
   return (
     <div className="w-11/12 md:w-3/5 xl:w-1/3 mt-24 m-auto">
-      <h1 className="font-bold text-3xl text-gray-800 ml-8">Sign up</h1>
+      <h1 className="font-bold text-3xl text-gray-900 text-center">Sign up</h1>
       <Link href="/users/sign-in">
-        <p className="ml-8 text-sm text-gray-700 font-medium ">
+        <p className="mb-6 text-sm text-gray-600 text-center font-medium ">
           Already a user?{" "}
           <span className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline cursor-pointer transition-all">
             Sign in
           </span>
         </p>
       </Link>
-      <SuccessFormSubmission success={success} setSuccess={setSuccess} />
-      <ErrorFormSubmission error={error} setError={setError} />
+      <FormSubmissionError error={error} />
       <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col">
-          <div className="mx-8 mt-12">
+          <div className="mx-8 mt-6">
             <FormInput
               formik={formik}
               label="Username"
@@ -94,10 +69,14 @@ const SignUp = () => {
             <div className="flex justify-between items-center mb-8">
               <button
                 type="submit"
-                disabled={loading}
-                className="shadow rounded w-full bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading || !formik.isValid}
+                className="rounded w-full bg-blue-600 text-blue-50 px-2 py-1 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? <Spinner type="Signing... up" /> : "Sign up"}
+                {loading ? (
+                  <FormSubmissionSpinner text="Signing... up" />
+                ) : (
+                  "Sign up"
+                )}
               </button>
             </div>
           </div>
