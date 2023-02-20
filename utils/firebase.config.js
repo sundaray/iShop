@@ -9,7 +9,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+import {
+  ref,
+  getStorage,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 import {
   getFirestore,
@@ -60,9 +65,60 @@ export const checkAdminStatus = async (uid) => {
   }
 };
 
+// Upload product images
+
+export const uploadProductImages = async (images, setLoading, setError, setSuccess) => {
+  setLoading(true);
+  const storeImage = async (image) => {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, "images/" + image.name);
+
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const imageUrls = await Promise.all(
+    images.map(async (image) => {
+      return await storeImage(image);
+    })
+  ).catch((error) => {
+    setLoading(false);
+    setSuccess(false);
+    setError(error.message);
+  });
+  return imageUrls;
+};
+
 // Upload product
 
 export const uploadProduct = async (
+  router,
+  resetForm,
   name,
   description,
   price,
@@ -88,7 +144,7 @@ export const uploadProduct = async (
     setLoading(false);
     resetForm();
     setSuccess(true);
-    setTimeout(() => router.push("/"), 500);
+    setTimeout(() => router.push("/"), 1000);
   } catch (error) {
     setLoading(false);
     setError(error.message);

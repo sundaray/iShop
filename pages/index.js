@@ -4,8 +4,6 @@ import Image from "next/image";
 import { fetchProducts } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 import PageError from "../components/shared/error/PageError";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 
 const productsPerPage = 8;
 

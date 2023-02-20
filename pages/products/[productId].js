@@ -70,7 +70,7 @@ const Product = () => {
     }
   };
 
-  if (!product && !loading && !error && !productReviews && !boughtByUser) {
+  if (loading) {
     return <PageSpinner />;
   }
 

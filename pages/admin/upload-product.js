@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { auth, storage } from "../../utils/firebase.config";
-import { userData, uploadProduct } from "../../utils/firebase.config";
+import {
+  auth,
+  userData,
+  uploadProduct,
+  uploadProductImages,
+} from "../../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import FormSubmissionError from "../../components/shared/FormSubmissionError";
-import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
 import FormInput from "../../components/shared/FormInput";
 import FormTextArea from "../../components/shared/FormTextArea";
 import FormInputFile from "../../components/shared/FormInputFile";
+import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
 
 const UploadProduct = () => {
   const [success, setSuccess] = useState(false);
@@ -56,60 +59,22 @@ const UploadProduct = () => {
       { images, name, description, price, stockCount },
       { resetForm }
     ) => {
-      setLoading(true);
-      const storeImage = async (image) => {
-        return new Promise((resolve, reject) => {
-          const storageRef = ref(storage, "images/" + image.name);
-
-          const uploadTask = uploadBytesResumable(storageRef, image);
-
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log("Upload is " + progress + "% done");
-              switch (snapshot.state) {
-                case "paused":
-                  console.log("Upload is paused");
-                  break;
-                case "running":
-                  console.log("Upload is running");
-                  break;
-              }
-            },
-            (error) => {
-              reject(error);
-            },
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                resolve(downloadURL);
-              });
-            }
+      // Save product images in firebase cloud storage & then save the product in cloud firestore
+      uploadProductImages(images, setLoading, setError, setSuccess).then(
+        (imageUrls) => {
+          uploadProduct(
+            router,
+            resetForm,
+            name,
+            description,
+            price,
+            stockCount,
+            imageUrls,
+            setLoading,
+            setError,
+            setSuccess
           );
-        });
-      };
-
-      const imageUrls = await Promise.all(
-        images.map(async (image) => {
-          return await storeImage(image);
-        })
-      ).catch((error) => {
-        setLoading(false);
-        setSuccess(false);
-        setError(error.message);
-      });
-
-      //Save the product in firestore
-      uploadProduct(
-        name,
-        description,
-        price,
-        stockCount,
-        imageUrls,
-        setLoading,
-        setError,
-        setSuccess
+        }
       );
     },
   });
@@ -121,7 +86,7 @@ const UploadProduct = () => {
       ) : (
         <>
           <h1 className="font-bold text-3xl text-gray-900 text-center mb-6">
-            Upload product {isAdmin}
+            Upload product
           </h1>
           <FormSubmissionError error={error} />
           <form className="flex flex-col" onSubmit={formik.handleSubmit}>
