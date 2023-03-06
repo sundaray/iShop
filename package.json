@@ -28,7 +28,8 @@
     "react-icons": "^4.7.1",
     "stripe": "^11.5.0",
     "swiper": "^8.4.5",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.3.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

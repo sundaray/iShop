@@ -14,21 +14,26 @@ import FormInput from "../../components/shared/FormInput";
 import FormTextArea from "../../components/shared/FormTextArea";
 import FormInputFile from "../../components/shared/FormInputFile";
 import FormSubmissionSpinner from "../../components/shared/FormSubmissionSpinner";
+import withPrivate from "./../../components/shared/routeguard/privateRoute";
+import PageSpinner from "./../../components/shared/PageSpinner";
 
 const UploadProduct = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminLoading, setIsAdminLoading] = useState(false);
 
   const router = useRouter();
   const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
+      setIsAdminLoading(true);
       userData(user.uid).then((userData) => {
         setIsAdmin(userData.isAdmin);
       });
+      setIsAdminLoading(false);
     }
   }, [user]);
 
@@ -81,7 +86,9 @@ const UploadProduct = () => {
 
   return (
     <div className="w-11/12 md:w-3/5 xl:w-2/5 m-auto my-24">
-      {!isAdmin ? (
+      {isAdminLoading ? (
+        <PageSpinner />
+      ) : !isAdmin ? (
         <p className="text-center">Only admins have access to this page.</p>
       ) : (
         <>
@@ -136,4 +143,4 @@ const UploadProduct = () => {
   );
 };
 
-export default UploadProduct;
+export default withPrivate(UploadProduct);

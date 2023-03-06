@@ -25,7 +25,7 @@ const Navigation = () => {
 
   const router = useRouter();
 
-  const { cartItemsQty } = useContext(cartItemsQtyContext);
+  const { totalCartQty } = useContext(cartItemsQtyContext);
 
   const handleSignOut = () => {
     signOut(auth).then(() => router.push("/"));
@@ -44,7 +44,7 @@ const Navigation = () => {
             <div className="relative flex items-center hover:text-gray-50 transition-all">
               <ShoppingCartIcon className="inline w-6 h-6 mr-1" />
               <AnimatePresence>
-                {user && cartItemsQty > 0 ? (
+                {totalCartQty > 0 ? (
                   <motion.div
                     variants={cartVariants}
                     initial="initial"
@@ -52,7 +52,7 @@ const Navigation = () => {
                     exit="initial"
                     className="rounded-full absolute -top-2 left-3 w-5 h-5 flex justify-center items-center bg-yellow-300"
                   >
-                    <p className="text-gray-900"> {cartItemsQty}</p>
+                    <p className="text-gray-900"> {totalCartQty}</p>
                   </motion.div>
                 ) : (
                   ""

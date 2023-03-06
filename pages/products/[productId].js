@@ -1,10 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/router";
+import { useAddToCart } from "../../components/store/globalStore";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { cartItemsQtyContext } from "../_app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase.config";
-import { addToCart } from "../../utils/firebase.config";
 import { fetchProduct } from "../../utils/firebase.config";
 import { fetchBoughtStatus } from "../../utils/firebase.config";
 import { fetchProductReviews } from "../../utils/firebase.config";
@@ -15,6 +13,17 @@ import ProductReviewForm from "../../components/shared/product/ProductReviewForm
 import ProductReviews from "../../components/shared/product/ProductReviews";
 import PageSpinner from "../../components/shared/PageSpinner";
 import PageError from "../../components/shared/error/PageError";
+import { cartItemsQtyContext } from "../_app";
+
+const useUpdateCart = () => {
+  const updateTotalCartQty = useAddToCart();
+
+  const handleAddToCart = (productId, qty) => {
+    updateTotalCartQty(productId, qty);
+  };
+
+  return handleAddToCart;
+};
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
@@ -26,10 +35,10 @@ const Product = () => {
   const [userReviewed, setUserReviewed] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
-  const { setCartItemsQty } = useContext(cartItemsQtyContext);
-
   const [user] = useAuthState(auth);
-  const router = useRouter();
+
+  const addToCart = useUpdateCart();
+  const { setTotalCartQty } = useContext(cartItemsQtyContext);
 
   const productId =
     typeof window !== "undefined"
@@ -55,21 +64,6 @@ const Product = () => {
     );
   }, [user, productId]);
 
-  const handleAddToCart = (product, qty, setLoading, setError) => {
-    if (user) {
-      const userId = user.uid;
-      addToCart(router, userId, product, qty, setLoading, setError);
-      setCartItemsQty(qty);
-    }
-    if (!user) {
-      router.query.from = `/products/${window.location.pathname.split("/")[2]}`;
-      router.push({
-        pathname: "/users/sign-in",
-        query: { from: router.query.from },
-      });
-    }
-  };
-
   if (loading) {
     return <PageSpinner />;
   }
@@ -88,9 +82,10 @@ const Product = () => {
             product={product}
             userId={user?.uid}
             setQty={setQty}
-            handleCartItem={() =>
-              handleAddToCart(product, qty, setLoading, setError)
-            }
+            handleCartItem={() => {
+              addToCart(productId, qty);
+              setTotalCartQty(qty);
+            }}
             loading={loading}
             setError={setError}
           />

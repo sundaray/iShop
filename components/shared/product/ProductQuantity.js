@@ -9,8 +9,6 @@ const ProductQuantity = ({
   setQty,
   handleCartItem,
   loading,
-  error,
-  setError,
 }) => {
   const [averageRating, setAverageRating] = useState(null);
   const [ratingCount, setRatingCount] = useState(null);
@@ -33,7 +31,7 @@ const ProductQuantity = ({
       <hr></hr>
       <div className="flex justify-between items-center">
         <p>Status:</p>
-        <p>{`${stockCount}` > 0 ? "In stock" : "Out of stcok"}</p>
+        <p>{`${stockCount}` > 0 ? "In stock" : "Out of stock"}</p>
       </div>
       <hr></hr>
       <div className="flex justify-between items-center">

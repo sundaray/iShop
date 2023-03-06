@@ -25,14 +25,14 @@ const Cart = () => {
   const { cartItemsQty, setCartItemsQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
-    fetchCartItems(setCartItems, user.uid);
+    fetchCartItems(setCartItems, user?.uid);
     if (cartItems) {
       const totalPrice = cartItems.reduce((acc, item) => {
         return acc + item.price * item.qty;
       }, 0);
       setTotalPrice(totalPrice);
     }
-  }, [itemQty, cartItems, user.uid]);
+  }, [itemQty, cartItems, user?.uid]);
 
   const handleDeleteCartItem = (id) => {
     deleteCartItem(id, user.uid);
