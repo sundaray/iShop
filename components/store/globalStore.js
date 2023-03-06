@@ -5,15 +5,15 @@ export const useCartStore = create(
   persist(
     (set, get) => ({
       cartItems: [],
-      addToCart: (productId, quantity) => {
+      addToCart: (userId, productId, quantity) => {
         const cartItems = get().cartItems;
         const itemIndex = cartItems.findIndex(
           (item) => item.productId === productId
         );
-        if (itemIndex !== -1) {
+        if (itemIndex !== -1 && cartItems[itemIndex].userId === userId) {
           cartItems[itemIndex].quantity = quantity;
         } else {
-          cartItems.push({ productId, quantity });
+          cartItems.push({ userId, productId, quantity });
         }
         set({ cartItems });
       },
@@ -22,12 +22,6 @@ export const useCartStore = create(
           (item) => item.productId !== productId
         );
         set({ cartItems });
-      },
-      totalCartQty: () => {
-        return get().cartItems.reduce(
-          (total, item) => total + item.quantity,
-          0
-        );
       },
     }),
     {
@@ -40,5 +34,3 @@ export const useCartItems = () => useCartStore((state) => state.cartItems);
 export const useAddToCart = () => useCartStore((state) => state.addToCart);
 export const useRemoveFromCart = () =>
   useCartStore((state) => state.removeFromCart);
-export const useTotalCartQty = () =>
-  useCartStore((state) => state.totalCartQty());

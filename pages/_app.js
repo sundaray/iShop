@@ -1,45 +1,40 @@
-// import React from "react";
-// import "../styles/globals.css";
-// import Navigation from "../components/shared/navigation/Navigation";
-
-// export default function App({ Component, pageProps }) {
-//   return (
-//     <>
-//       <Navigation />
-//       <Component {...pageProps} />
-//     </>
-//   );
-// }
-
 import React, { useState, useEffect, createContext } from "react";
 import "../styles/globals.css";
 import { auth } from "../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Navigation from "../components/shared/navigation/Navigation";
-import PrivateRoute from "../components/shared/routeguard/privateRoute";
-import { useTotalCartQty } from "../components/store/globalStore";
+import { useCartItems } from "../components/store/globalStore";
 
 export const cartItemsQtyContext = createContext();
 
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   const [totalCartQty, setTotalCartQty] = useState(null);
-  const globalTotalCartQty = useTotalCartQty();
+
+  const [user] = useAuthState(auth);
+  const cartItems = useCartItems();
+  const userCartItems = cartItems.filter((item) => item.userId === user?.uid);
+  const userCartItemsQty = userCartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   useEffect(() => {
-    setTotalCartQty(globalTotalCartQty);
-  }, [globalTotalCartQty]);
+    setTotalCartQty(userCartItemsQty);
+  }, [userCartItemsQty]);
 
-  const cartItems = {
+  const cart = {
     totalCartQty,
     setTotalCartQty,
   };
 
   return (
     <>
-      <cartItemsQtyContext.Provider value={cartItems}>
+      <cartItemsQtyContext.Provider value={cart}>
         <Navigation />
         <Component {...pageProps} />
       </cartItemsQtyContext.Provider>
     </>
   );
-}
+};
+
+export default App;

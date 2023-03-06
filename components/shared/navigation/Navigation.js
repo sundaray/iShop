@@ -44,7 +44,7 @@ const Navigation = () => {
             <div className="relative flex items-center hover:text-gray-50 transition-all">
               <ShoppingCartIcon className="inline w-6 h-6 mr-1" />
               <AnimatePresence>
-                {totalCartQty > 0 ? (
+                {user && totalCartQty > 0 ? (
                   <motion.div
                     variants={cartVariants}
                     initial="initial"

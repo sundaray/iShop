@@ -2,10 +2,12 @@ import { useEffect, useState, useContext } from "react";
 import { useAddToCart } from "../../components/store/globalStore";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../utils/firebase.config";
-import { fetchProduct } from "../../utils/firebase.config";
-import { fetchBoughtStatus } from "../../utils/firebase.config";
-import { fetchProductReviews } from "../../utils/firebase.config";
+import {
+  auth,
+  fetchProduct,
+  fetchBoughtStatus,
+  fetchProductReviews,
+} from "../../utils/firebase.config";
 import ProductImageGallery from "../../components/shared/product/ProductImageGallery";
 import ProductDescription from "../../components/shared/product/ProductDescription";
 import ProductQuantity from "./../../components/shared/product/ProductQuantity";
@@ -14,16 +16,6 @@ import ProductReviews from "../../components/shared/product/ProductReviews";
 import PageSpinner from "../../components/shared/PageSpinner";
 import PageError from "../../components/shared/error/PageError";
 import { cartItemsQtyContext } from "../_app";
-
-const useUpdateCart = () => {
-  const updateTotalCartQty = useAddToCart();
-
-  const handleAddToCart = (productId, qty) => {
-    updateTotalCartQty(productId, qty);
-  };
-
-  return handleAddToCart;
-};
 
 const Product = () => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +29,8 @@ const Product = () => {
 
   const [user] = useAuthState(auth);
 
-  const addToCart = useUpdateCart();
+  const addToCart = useAddToCart();
+
   const { setTotalCartQty } = useContext(cartItemsQtyContext);
 
   const productId =
@@ -83,7 +76,7 @@ const Product = () => {
             userId={user?.uid}
             setQty={setQty}
             handleCartItem={() => {
-              addToCart(productId, qty);
+              addToCart(user?.uid, productId, qty);
               setTotalCartQty(qty);
             }}
             loading={loading}
