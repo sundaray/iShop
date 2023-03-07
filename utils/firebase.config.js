@@ -243,6 +243,7 @@ export const addToCart = async (
 
 // Fetch cartItems
 export const fetchCartItems = async (setCartItems, userId) => {
+  console.log(userId);
   const cartItems = [];
   const firestoreQuery = query(
     collection(db, "cartItems"),

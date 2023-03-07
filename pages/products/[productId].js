@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
 import { useAddToCart } from "../../components/store/globalStore";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -27,10 +28,9 @@ const Product = () => {
   const [userReviewed, setUserReviewed] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
+  const router = useRouter();
   const [user] = useAuthState(auth);
-
   const addToCart = useAddToCart();
-
   const { setTotalCartQty } = useContext(cartItemsQtyContext);
 
   const productId =
@@ -57,6 +57,23 @@ const Product = () => {
     );
   }, [user, productId]);
 
+
+// Add item to cart
+  const handleAddToCart = () => {
+    if (!user) {
+      router.query.from = `/products/${window.location.pathname.split("/")[2]}`;
+      router.push({
+        pathname: "/users/sign-in",
+        query: { from: router.query.from },
+      });
+    }
+    if(user) {
+      addToCart(user?.uid, product, qty);
+      setTotalCartQty(qty);
+      router.push("/cart")
+    }
+  };
+
   if (loading) {
     return <PageSpinner />;
   }
@@ -75,10 +92,7 @@ const Product = () => {
             product={product}
             userId={user?.uid}
             setQty={setQty}
-            handleCartItem={() => {
-              addToCart(user?.uid, productId, qty);
-              setTotalCartQty(qty);
-            }}
+            addToCart={handleAddToCart}
             loading={loading}
             setError={setError}
           />

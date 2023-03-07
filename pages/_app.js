@@ -2,8 +2,8 @@ import React, { useState, useEffect, createContext } from "react";
 import "../styles/globals.css";
 import { auth } from "../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useCartQtyByUser } from "../components/store/globalStore";
 import Navigation from "../components/shared/navigation/Navigation";
-import { useCartItems } from "../components/store/globalStore";
 
 export const cartItemsQtyContext = createContext();
 
@@ -11,16 +11,11 @@ const App = ({ Component, pageProps }) => {
   const [totalCartQty, setTotalCartQty] = useState(null);
 
   const [user] = useAuthState(auth);
-  const cartItems = useCartItems();
-  const userCartItems = cartItems.filter((item) => item.userId === user?.uid);
-  const userCartItemsQty = userCartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const userCartQty = useCartQtyByUser()[user?.uid];
 
   useEffect(() => {
-    setTotalCartQty(userCartItemsQty);
-  }, [userCartItemsQty]);
+    setTotalCartQty(userCartQty);
+  }, [userCartQty]);
 
   const cart = {
     totalCartQty,

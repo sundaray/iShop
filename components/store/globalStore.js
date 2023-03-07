@@ -5,23 +5,41 @@ export const useCartStore = create(
   persist(
     (set, get) => ({
       cartItems: [],
-      addToCart: (userId, productId, quantity) => {
+      cartQtyByUser: {},
+      addToCart: (userId, product, quantity) => {
+        const { id: productId, price, imgUrls } = product;
         const cartItems = get().cartItems;
-        const itemIndex = cartItems.findIndex(
-          (item) => item.productId === productId
-        );
+        const itemIndex = cartItems.findIndex((item) => item.id === productId);
         if (itemIndex !== -1 && cartItems[itemIndex].userId === userId) {
           cartItems[itemIndex].quantity = quantity;
         } else {
-          cartItems.push({ userId, productId, quantity });
+          cartItems.push({
+            userId,
+            productId,
+            price,
+            image: imgUrls[0],
+            quantity,
+          });
         }
-        set({ cartItems });
+
+        const cartQtyByUser = cartItems.reduce((acc, item) => {
+          const { userId, quantity } = item;
+          acc[userId] = (acc[userId] || 0) + quantity;
+          return acc;
+        }, {});
+
+        set({ cartItems, cartQtyByUser });
       },
-      removeFromCart: (productId) => {
+      removeFromCart: (productId, userId) => {
         const cartItems = get().cartItems.filter(
-          (item) => item.productId !== productId
+          (item) => item.userId === userId && item.id !== productId
         );
-        set({ cartItems });
+        const cartQtyByUser = cartItems.reduce((acc, item) => {
+          const { userId, quantity } = item;
+          acc[userId] = (acc[userId] || 0) + quantity;
+          return acc;
+        }, {});
+        set({ cartItems, cartQtyByUser });
       },
     }),
     {
@@ -30,7 +48,8 @@ export const useCartStore = create(
   )
 );
 
-export const useCartItems = () => useCartStore((state) => state.cartItems);
+export const useCartQtyByUser = () =>
+  useCartStore((state) => state.cartQtyByUser);
 export const useAddToCart = () => useCartStore((state) => state.addToCart);
 export const useRemoveFromCart = () =>
   useCartStore((state) => state.removeFromCart);

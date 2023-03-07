@@ -7,7 +7,7 @@ const ProductQuantity = ({
   product: { id, price, stockCount },
   userId,
   setQty,
-  handleCartItem,
+  addToCart,
   loading,
 }) => {
   const [averageRating, setAverageRating] = useState(null);
@@ -51,7 +51,7 @@ const ProductQuantity = ({
       </div>
       <hr></hr>
       <button
-        onClick={handleCartItem}
+        onClick={addToCart}
         disabled={loading}
         className="rounded px-2 py-2 bg-blue-600 text-blue-50 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >

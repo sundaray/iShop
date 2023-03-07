@@ -8,21 +8,22 @@ import { cartItemsQtyContext } from "./_app";
 import { auth } from "../utils/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { fetchCartItems } from "../utils/firebase.config";
-import { updateCartItem } from "../utils/firebase.config";
 import { deleteCartItem } from "../utils/firebase.config";
 import PageSpinner from "../components/shared/PageSpinner";
 import PageError from "../components/shared/error/PageError";
+import { useAddToCart } from "../components/store/globalStore";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
-  const [itemQty, setItemQty] = useState(null);
+  const [qty, setQty] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const [error, setError] = useState(false);
   const [totalPrice, setTotalPrice] = useState("");
 
   const [user] = useAuthState(auth);
+  const addToCart = useAddToCart();
 
-  const { cartItemsQty, setCartItemsQty } = useContext(cartItemsQtyContext);
+  const { totalCartQty, setTotalCartQty } = useContext(cartItemsQtyContext);
 
   useEffect(() => {
     fetchCartItems(setCartItems, user?.uid);
@@ -32,7 +33,7 @@ const Cart = () => {
       }, 0);
       setTotalPrice(totalPrice);
     }
-  }, [itemQty, cartItems, user?.uid]);
+  }, [cartItems, user?.uid]);
 
   const handleDeleteCartItem = (id) => {
     deleteCartItem(id, user.uid);
@@ -69,11 +70,11 @@ const Cart = () => {
         <main className="w-full lg:w-9/12 mt-32 mb-12 m-auto">
           <div className="flex flex-col items-center space-y-8 mb-12 ">
             <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-              {cartItemsQty > 0
+              {totalCartQty > 0
                 ? `Your cart total is Rs. ${totalPrice}.`
                 : "Your cart is empty"}
             </p>
-            {cartItemsQty > 0 ? (
+            {totalCartQty > 0 ? (
               <button
                 className="rounded w-44 px-2 py-1
                     bg-blue-600 text-blue-50 hover:bg-blue-700
@@ -113,10 +114,9 @@ const Cart = () => {
                     className="bg-gray-100 first-line:leading-tight focus:outline-none cursor-pointer"
                     value={qty}
                     onChange={(event) => {
-                      setItemQty(event.target.value);
-                      const updatedQty = event.target.value;
-                      updateCartItem(id, updatedQty, user.uid);
-                      setCartItemsQty(updatedQty);
+                      setQty(event.target.value);
+                      addToCart(user.uid, id, qty);
+                      setTotalCartQty(qty);
                     }}
                   >
                     {[...Array(stockCount).keys()].map((num) => (
